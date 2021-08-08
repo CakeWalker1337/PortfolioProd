@@ -15,10 +15,7 @@ import kotlinx.android.synthetic.main.viewpager_content_item.view.*
  */
 class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.SyntViewHolder>() {
 
-    private val items: MutableList<PictureItem> = mutableListOf(
-        PictureItem("1", "https://i.imgur.com/a7s4g5B.jpeg"),
-        PictureItem("2", "https://i.imgur.com/9ubEX26.jpeg"),
-    )
+    private val items: MutableList<PictureItem> = mutableListOf()
 
     fun setItems(newItems: List<PictureItem>) {
         items.clear()
