@@ -1,69 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/main.appbar"
+    <FrameLayout
+        android:id="@+id/carouselContainer"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/main.collapsing"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/carouselPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="280dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/main.toolbar"
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_fade_out"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="220dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardContentContainer"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/main.backdrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/design_default_color_primary"
-                    android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Aaaaa"
-                    android:textColor="@android:color/white"
-                    android:textSize="26sp"
-                    app:layout_collapseMode="pin"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                    android:layout_height="1000dp"
+                    android:layout_margin="20dp"
+                    android:text="bla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\n"
+                    android:textSize="20sp" />
+            </com.google.android.material.card.MaterialCardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
