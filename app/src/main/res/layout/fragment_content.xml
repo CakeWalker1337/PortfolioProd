@@ -24,7 +24,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
-
         <View
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -35,38 +34,188 @@
             app:layout_constraintStart_toStartOf="parent" />
     </FrameLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:nestedScrollingEnabled="true"
+        android:paddingTop="220dp"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="220dp">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardContentContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_margin="16dp"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp"
+                app:cardElevation="6dp"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="20dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1000dp"
-                    android:layout_margin="20dp"
-                    android:text="bla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\nbla bla bla bla bla bla bla bla\n"
-                    android:textSize="20sp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageTest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/titleRecent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/raleway_regular"
+                        android:text="Recent works"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:id="@+id/recentSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#999999" />
+
+                    <LinearLayout
+                        android:id="@+id/recentArtsRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical" />
+
+                    <TextView
+                        android:id="@+id/titlePopular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:fontFamily="@font/raleway_regular"
+                        android:text="Most popular works"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:id="@+id/popularSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginHorizontal="16dp"
+                        android:background="#999999" />
+
+                    <LinearLayout
+                        android:id="@+id/popularArtsRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="56dp"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:translationY="-40dp"
+                app:cardElevation="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardContentContainer"
+                tools:layout_height="800dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/titleAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/raleway_regular"
+                        android:text="All works"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/allSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_margin="16dp"
+                        android:background="#999999"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleAll" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/allArtsScrollContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:scrollbars="none"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/allSeparator">
+
+                        <LinearLayout
+                            android:id="@+id/allArtsRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="true"
+                            android:orientation="horizontal"
+                            android:paddingStart="16dp" />
+
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:id="@+id/titleContacts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/raleway_regular"
+                        android:text="Contacts"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/allArtsScrollContainer" />
+
+                    <View
+                        android:id="@+id/contactsSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_margin="16dp"
+                        android:background="#999999"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleContacts" />
+
+                    <TextView
+                        android:id="@+id/followTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:fontFamily="@font/raleway_regular"
+                        android:text="Follow me on:"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/contactsSeparator" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

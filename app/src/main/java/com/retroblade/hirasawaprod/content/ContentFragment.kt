@@ -1,5 +1,6 @@
 package com.retroblade.hirasawaprod.content
 
+import ContentHorizontalAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import kotlinx.android.synthetic.main.fragment_content.*
 
+
 /**
  * @author m.a.kovalev
  */
@@ -17,6 +19,9 @@ class ContentFragment : Fragment() {
 
     private var offsetY: Int = 0
     private val pagerAdapter = CarouselViewPagerAdapter()
+    private lateinit var recentArtsAdapter: ContentVerticalAdapter
+    private lateinit var popularArtsAdapter: ContentVerticalAdapter
+    private lateinit var allArtsAdapter: ContentHorizontalAdapter
     private var currentItemPos: Int = 0
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -32,26 +37,34 @@ class ContentFragment : Fragment() {
         carouselContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         carouselPager.setOffscreenPageLimit(3)
         carouselPager.adapter = pagerAdapter
-        pagerAdapter.setItems(
-            listOf(
-                PictureItem("1", "https://i.imgur.com/a7s4g5B.jpeg"),
-                PictureItem("2", "https://i.imgur.com/9ubEX26.jpeg"),
-                PictureItem("3", "https://i.imgur.com/rJqtaQU.png"),
-                PictureItem("4", "https://i.imgur.com/wKtAi7D.jpeg"),
-            )
+        val items = listOf(
+            PictureItem("1", "https://i.imgur.com/a7s4g5B.jpeg", 1, 1),
+            PictureItem("2", "https://i.imgur.com/9ubEX26.jpeg", 1, 1),
+            PictureItem("3", "https://i.imgur.com/rJqtaQU.png", 1, 1),
+            PictureItem("4", "https://i.imgur.com/wKtAi7D.jpeg", 1, 1),
         )
+        pagerAdapter.setItems(items)
         recursiveScrolling()
+        recentArtsAdapter = ContentVerticalAdapter(recentArtsRecycler)
+        popularArtsAdapter = ContentVerticalAdapter(popularArtsRecycler)
+        allArtsAdapter = ContentHorizontalAdapter(allArtsRecycler)
+
+        recentArtsAdapter.setItems(items)
+        popularArtsAdapter.setItems(items)
+        allArtsAdapter.setItems(items)
     }
 
     fun recursiveScrolling() {
-        carouselPager.postDelayed({
-            if (currentItemPos == carouselPager.adapter!!.itemCount) {
-                currentItemPos = 0
-            } else {
-                currentItemPos++
+        carouselPager?.postDelayed({
+            carouselPager?.adapter?.let { adapter ->
+                if (currentItemPos == adapter.itemCount) {
+                    currentItemPos = 0
+                } else {
+                    currentItemPos++
+                }
+                carouselPager.setCurrentItem(currentItemPos, 1000L)
+                recursiveScrolling()
             }
-            carouselPager.setCurrentItem(currentItemPos, 1000L)
-            recursiveScrolling()
         }, 5000L)
     }
 

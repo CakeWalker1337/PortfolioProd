@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.retroblade.hirasawaprod.R
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.viewpager_content_item.view.*
+import kotlinx.android.synthetic.main.item_content_carousel.view.*
 
 /**
  * @author m.a.kovalev
@@ -26,7 +26,7 @@ class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.S
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SyntViewHolder =
         SyntViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.viewpager_content_item, parent, false)
+                .inflate(R.layout.item_content_carousel, parent, false)
         )
 
     override fun getItemCount(): Int = items.size
@@ -42,7 +42,5 @@ class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.S
     }
 
     class SyntViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
-        LayoutContainer {
-
-    }
+        LayoutContainer
 }
