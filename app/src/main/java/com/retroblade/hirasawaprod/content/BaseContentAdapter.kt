@@ -13,9 +13,9 @@ abstract class BaseContentAdapter(container: LinearLayout) {
     }
 
     protected var containerRef: WeakReference<LinearLayout?>? = null
-    protected val items: MutableList<PictureItem> = mutableListOf()
+    protected val items: MutableList<PhotoItem> = mutableListOf()
 
-    fun setItems(newItems: List<PictureItem>) {
+    fun setItems(newItems: List<PhotoItem>) {
         items.clear()
         items.addAll(newItems)
         updateView()

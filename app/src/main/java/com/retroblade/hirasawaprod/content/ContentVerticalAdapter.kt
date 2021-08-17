@@ -21,11 +21,11 @@ class ContentVerticalAdapter(container: LinearLayout) : BaseContentAdapter(conta
                 val imageView = frame.findViewById<ImageView>(R.id.feedImage)
                 val likesInfoView = frame.findViewById<TextView>(R.id.likesInfoView)
                 val viewsInfoView = frame.findViewById<TextView>(R.id.viewsInfoView)
+
                 container.addView(frame)
                 Glide.with(imageView)
                     .load(item.url)
                     .into(imageView)
-
                 likesInfoView.text = item.likes.toString()
                 viewsInfoView.text = item.views.toString()
             }
