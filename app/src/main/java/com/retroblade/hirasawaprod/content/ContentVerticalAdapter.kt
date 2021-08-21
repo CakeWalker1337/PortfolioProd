@@ -7,12 +7,13 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.retroblade.hirasawaprod.R
 
+
 /**
  * @author m.a.kovalev
  */
 class ContentVerticalAdapter(container: LinearLayout) : BaseContentAdapter(container) {
 
-    override fun updateView() {
+    override fun updateView(clickListener: (() -> Unit)?) {
         containerRef?.get()?.let { container ->
             container.removeAllViews()
             val inflater = LayoutInflater.from(container.context)
@@ -28,6 +29,10 @@ class ContentVerticalAdapter(container: LinearLayout) : BaseContentAdapter(conta
                     .into(imageView)
                 likesInfoView.text = item.likes.toString()
                 viewsInfoView.text = item.views.toString()
+
+                imageView.setOnClickListener {
+                    clickListener?.invoke()
+                }
             }
         }
     }

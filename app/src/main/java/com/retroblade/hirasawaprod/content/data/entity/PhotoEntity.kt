@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.content.entity
+package com.retroblade.hirasawaprod.content.data.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,7 +13,7 @@ class PhotoEntity(
     val id: String,
 
     @SerialName("owner")
-    val owner: String,
+    val owner: String? = null,
 
     @SerialName("title")
     val title: String,
@@ -27,7 +27,7 @@ class PhotoEntity(
     @SerialName("count_views")
     val viewsCount: String,
 
-    @SerialName("url_o")
+    @SerialName("url_l")
     val photoUrl: String? = null
 ) {
 }

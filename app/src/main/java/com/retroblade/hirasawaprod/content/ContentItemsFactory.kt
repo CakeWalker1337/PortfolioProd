@@ -24,4 +24,9 @@ class ContentItemsFactory {
             .map { PhotoItem(it.id, it.photoUrl, it.viewsCount, it.likesCount) }
             .let { it + recentItems.take(10 - it.size) }
     }
+
+    fun createPagerItems(photos: List<Photo>): List<PhotoItem> {
+        return photos.map { PhotoItem(it.id, it.photoUrl, it.viewsCount, it.likesCount) }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.retroblade.hirasawaprod.content
 
 import com.retroblade.hirasawaprod.base.BaseView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 /**
@@ -15,4 +16,9 @@ interface ContentView : BaseView {
     fun setPopularPhotosItems(items: List<PhotoItem>)
 
     fun setRelevantPhotosItems(items: List<PhotoItem>)
+
+    fun setPagerItems(items: List<PhotoItem>)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showContent()
 }

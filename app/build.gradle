@@ -26,9 +26,11 @@ android {
             def apikey = properties.getProperty('api_key')
 
             buildConfigField "String", "API_KEY", apikey
-            buildConfigField "String", "API_CONTENT_EXTRAS", "\"date_upload,count_views,count_faves,url_o\""
-            buildConfigField "String", "API_USER_ID", "\"58739058@N07\""
+            buildConfigField "String", "API_CONTENT_EXTRAS", "\"date_upload,count_views,count_faves,url_l\""
+            buildConfigField "String", "API_USER_ID", "\"66460484@N06\""
+            //buildConfigField "String", "API_USER_ID", "\"160135731@N04\""
             buildConfigField "Integer", "API_ELEMENTS_PER_PAGE", "20"
+            buildConfigField "String", "API_CAROUSEL_PHOTOSET_NAME", "\"carousel\""
         }
     }
     buildTypes {
@@ -79,5 +81,11 @@ dependencies {
     kapt 'com.github.moxy-community:moxy-compiler:2.1.2'
     implementation 'com.github.moxy-community:moxy-androidx:2.1.2'
     implementation "com.github.moxy-community:moxy-ktx:2.1.2"
+
+    implementation "androidx.room:room-runtime:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
+
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:2.3.0"
 
 }

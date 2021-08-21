@@ -1,6 +1,6 @@
 package com.retroblade.hirasawaprod.content.usecase
 
-import com.retroblade.hirasawaprod.content.ContentRepository
+import com.retroblade.hirasawaprod.content.data.ContentRepository
 import com.retroblade.hirasawaprod.content.domain.Photo
 import com.retroblade.hirasawaprod.content.mapper.toDomain
 import io.reactivex.Single

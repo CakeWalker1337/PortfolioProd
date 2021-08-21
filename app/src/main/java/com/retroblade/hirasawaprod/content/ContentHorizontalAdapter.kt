@@ -10,7 +10,7 @@ import com.retroblade.hirasawaprod.content.BaseContentAdapter
  */
 class ContentHorizontalAdapter(container: LinearLayout) : BaseContentAdapter(container) {
 
-    override fun updateView() {
+    override fun updateView(clickListener: (() -> Unit)?) {
         containerRef?.get()?.let { container ->
             container.removeAllViews()
             val inflater = LayoutInflater.from(container.context)
@@ -21,6 +21,9 @@ class ContentHorizontalAdapter(container: LinearLayout) : BaseContentAdapter(con
                 Glide.with(imageView)
                     .load(item.url)
                     .into(imageView)
+                imageView.setOnClickListener {
+                    clickListener?.invoke()
+                }
             }
         }
     }

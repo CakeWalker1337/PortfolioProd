@@ -14,16 +14,21 @@ abstract class BaseContentAdapter(container: LinearLayout) {
 
     protected var containerRef: WeakReference<LinearLayout?>? = null
     protected val items: MutableList<PhotoItem> = mutableListOf()
+    private var clickListener: (() -> Unit)? = null
+
+    fun setOnItemClickListener(clickListener: () -> Unit) {
+        this.clickListener = clickListener
+    }
 
     fun setItems(newItems: List<PhotoItem>) {
         items.clear()
         items.addAll(newItems)
-        updateView()
+        updateView(clickListener)
     }
 
     fun setContainer(newContainer: LinearLayout?) {
         containerRef = WeakReference<LinearLayout?>(newContainer)
     }
 
-    protected abstract fun updateView()
+    protected abstract fun updateView(clickListener: (() -> Unit)? = null)
 }

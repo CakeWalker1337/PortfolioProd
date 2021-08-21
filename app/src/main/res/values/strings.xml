@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HirasawaProd</string>
+    <string name="follow_text">I appreciate your support and hope to receive your feedback about my works on\u00A0Twitter: <a href="https://twitter.com/serometa">@serometa</a>\n\nThank you so much!"</string>
 </resources>

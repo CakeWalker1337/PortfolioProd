@@ -1,8 +1,9 @@
-package com.retroblade.hirasawaprod.content
+package com.retroblade.hirasawaprod.content.data
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.retroblade.hirasawaprod.BuildConfig
-import com.retroblade.hirasawaprod.content.entity.PhotoEntity
+import com.retroblade.hirasawaprod.content.data.entity.PhotoEntity
+import com.retroblade.hirasawaprod.content.data.entity.PhotosetInfoEntity
 import io.reactivex.Observable
 import io.reactivex.internal.functions.Functions
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -52,6 +53,22 @@ class ContentRepository {
     fun getAllPhotos(): Observable<PhotoEntity> {
         return service.getAllPhotos()
             .map { it.photosContainer.photos }
+            .flattenAsObservable(Functions.identity())
+    }
+
+    @ExperimentalSerializationApi
+    fun getAllPhotosets(): Observable<PhotosetInfoEntity> {
+        return service.getAllPhotosets()
+            .map { it.photosContainer.photosets }
+            .flattenAsObservable(Functions.identity())
+    }
+
+    @ExperimentalSerializationApi
+    fun getPhotosByPhotosetId(id: String): Observable<PhotoEntity> {
+        return service.getPhotosByPhotosetId(id)
+            .map {
+                it.photoset.photos
+            }
             .flattenAsObservable(Functions.identity())
     }
 

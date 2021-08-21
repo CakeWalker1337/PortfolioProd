@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/content_background_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -55,10 +56,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
+                app:cardBackgroundColor="@color/content_foreground_color"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="6dp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="20dp">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -118,33 +119,33 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="56dp"
+                        android:layout_marginBottom="36dp"
                         android:orientation="vertical" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/relevantContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:translationY="-40dp"
                 app:cardElevation="12dp"
+                app:cardBackgroundColor="@color/content_foreground_contrast_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardContentContainer"
-                tools:layout_height="800dp">
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/titleAll"
+                        android:id="@+id/titleRelevant"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/raleway_regular"
-                        android:text="All works"
+                        android:text="Relevant works"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -158,7 +159,7 @@
                         android:background="#999999"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/titleAll" />
+                        app:layout_constraintTop_toBottomOf="@id/titleRelevant" />
 
                     <HorizontalScrollView
                         android:id="@+id/allArtsScrollContainer"
@@ -205,17 +206,42 @@
 
                     <TextView
                         android:id="@+id/followTitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="24dp"
                         android:fontFamily="@font/raleway_regular"
-                        android:text="Follow me on:"
+                        android:gravity="center_horizontal"
+                        android:text="@string/follow_text"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/contactsSeparator" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/content_progress_background_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:indeterminateDrawable="@drawable/ic_progress_bar"
+            android:indeterminateOnly="true" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.content.entity
+package com.retroblade.hirasawaprod.content.data.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -7,8 +7,7 @@ import kotlinx.serialization.Serializable
  * @author m.a.kovalev
  */
 @Serializable
-class PhotosContainerEntity(
-
+class PhotosetsContainerEntity(
     @SerialName("page")
     val page: Int,
 
@@ -21,6 +20,6 @@ class PhotosContainerEntity(
     @SerialName("total")
     val total: Int,
 
-    @SerialName("photo")
-    val photos: List<PhotoEntity>
+    @SerialName("photoset")
+    val photosets: List<PhotosetInfoEntity>
 )

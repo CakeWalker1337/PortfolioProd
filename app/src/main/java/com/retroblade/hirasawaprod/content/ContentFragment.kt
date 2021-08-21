@@ -1,8 +1,12 @@
 package com.retroblade.hirasawaprod.content
 
 import ContentHorizontalAdapter
+import android.content.Intent
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseFragment
 import com.retroblade.hirasawaprod.utils.dpToPx
@@ -40,18 +44,18 @@ class ContentFragment : BaseFragment(), ContentView {
         carouselContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         carouselPager.setOffscreenPageLimit(3)
         carouselPager.adapter = pagerAdapter
-        val items = listOf(
-            PhotoItem("1", "https://i.imgur.com/a7s4g5B.jpeg", 1, 1),
-            PhotoItem("2", "https://i.imgur.com/9ubEX26.jpeg", 1, 1),
-            PhotoItem("3", "https://i.imgur.com/rJqtaQU.png", 1, 1),
-            PhotoItem("4", "https://i.imgur.com/wKtAi7D.jpeg", 1, 1),
-        )
-        pagerAdapter.setItems(items)
-        recursiveScrolling()
-        recentArtsAdapter = ContentVerticalAdapter(recentArtsRecycler)
-        popularArtsAdapter = ContentVerticalAdapter(popularArtsRecycler)
-        allArtsAdapter = ContentHorizontalAdapter(allArtsRecycler)
 
+        recentArtsAdapter = ContentVerticalAdapter(recentArtsRecycler).apply { setOnItemClickListener(::onClickListener) }
+        popularArtsAdapter = ContentVerticalAdapter(popularArtsRecycler).apply { setOnItemClickListener(::onClickListener) }
+        allArtsAdapter = ContentHorizontalAdapter(allArtsRecycler).apply { setOnItemClickListener(::onClickListener) }
+
+        followTitle.movementMethod = LinkMovementMethod.getInstance()
+        popularArtsRecycler.post {
+            val lp = popularArtsRecycler.layoutParams as ViewGroup.MarginLayoutParams
+            lp.bottomMargin = relevantContainer.height + requireContext().dpToPx(MARGIN_OFFSET)
+            popularArtsRecycler.layoutParams = lp
+        }
+        enableStartAnimation()
         presenter.loadData()
     }
 
@@ -65,6 +69,36 @@ class ContentFragment : BaseFragment(), ContentView {
 
     override fun setRelevantPhotosItems(items: List<PhotoItem>) {
         allArtsAdapter.setItems(items)
+    }
+
+    override fun setPagerItems(items: List<PhotoItem>) {
+        pagerAdapter.setItems(items)
+        recursiveScrolling()
+    }
+
+    override fun showContent() {
+        progress.animate()
+            .setStartDelay(2000L)
+            .alpha(0.0F)
+            .setDuration(400L)
+            .withEndAction { progress.isVisible = false }
+            .start()
+    }
+
+    private fun onClickListener() {
+        val intent = Intent()
+        intent.action = Intent.ACTION_VIEW
+        intent.type = "image/*"
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+    private fun enableStartAnimation() {
+        progressBar.animate()
+            .setStartDelay(500L)
+            .alpha(1.0F)
+            .setDuration(1000L)
+            .start()
     }
 
     private fun recursiveScrolling() {
@@ -84,5 +118,6 @@ class ContentFragment : BaseFragment(), ContentView {
     private companion object {
 
         private const val OFFSET_LIMIT = 220F
+        private const val MARGIN_OFFSET = 12F
     }
 }

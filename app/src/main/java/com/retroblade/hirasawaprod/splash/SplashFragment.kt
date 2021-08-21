@@ -24,6 +24,10 @@ class SplashFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        startSplashAnimation()
+    }
+
+    private fun startSplashAnimation() {
         tvUnder.text = "Hello"
         tvUnder.animateBlink(500L, 2000L) {
             tvCenter.text = "I am Hirasawa"
@@ -44,8 +48,7 @@ class SplashFragment : Fragment() {
         }
     }
 
-
-    fun View.animateBlink(startDelay: Long, stayTime: Long, callBack: (() -> Unit)? = null) {
+    private fun View.animateBlink(startDelay: Long, stayTime: Long, callBack: (() -> Unit)? = null) {
         this.animate().setStartDelay(startDelay).alpha(1.0F).setDuration(TRANSITION_DURATION)
             .withEndAction {
                 this.animate().setStartDelay(stayTime).alpha(0.0F).setDuration(TRANSITION_DURATION)
