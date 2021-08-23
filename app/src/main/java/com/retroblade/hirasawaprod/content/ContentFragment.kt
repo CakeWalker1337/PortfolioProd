@@ -1,6 +1,5 @@
 package com.retroblade.hirasawaprod.content
 
-import ContentHorizontalAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
@@ -9,10 +8,13 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseFragment
+import com.retroblade.hirasawaprod.content.di.ContentModule
 import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import kotlinx.android.synthetic.main.fragment_content.*
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
+import toothpick.Scope
 
 
 /**
@@ -27,7 +29,15 @@ class ContentFragment : BaseFragment(), ContentView {
     private lateinit var allArtsAdapter: ContentHorizontalAdapter
     private var currentItemPos: Int = 0
 
-    private val presenter: ContentPresenter by moxyPresenter { ContentPresenter() }
+    @InjectPresenter
+    lateinit var presenter: ContentPresenter
+
+    @ProvidePresenter
+    fun providePresenter(): ContentPresenter = scope.getInstance(ContentPresenter::class.java)
+
+    override fun installModules(scope: Scope) {
+        scope.installModules(moduleHolder.getModule<ContentModule>(scope))
+    }
 
     override fun getLayoutRes(): Int = R.layout.fragment_content
 

@@ -1,11 +1,12 @@
 package com.retroblade.hirasawaprod.content
 
 import com.retroblade.hirasawaprod.content.domain.Photo
+import javax.inject.Inject
 
 /**
  * @author m.a.kovalev
  */
-class ContentItemsFactory {
+class ContentItemsFactory @Inject constructor() {
 
     fun createRecentItems(photos: List<Photo>): List<PhotoItem> {
         return photos.take(4).map { PhotoItem(it.id, it.photoUrl, it.viewsCount, it.likesCount) }

@@ -1,21 +1,50 @@
 package com.retroblade.hirasawaprod.content.usecase
 
+import android.content.Context
 import com.retroblade.hirasawaprod.content.data.ContentRepository
+import com.retroblade.hirasawaprod.content.data.entity.db.PhotoType
 import com.retroblade.hirasawaprod.content.domain.Photo
+import com.retroblade.hirasawaprod.content.mapper.toDb
 import com.retroblade.hirasawaprod.content.mapper.toDomain
+import com.retroblade.hirasawaprod.utils.NetworkUtils
 import io.reactivex.Single
 import kotlinx.serialization.ExperimentalSerializationApi
+import javax.inject.Inject
 
 /**
  * @author m.a.kovalev
  */
 @ExperimentalSerializationApi
-class GetAllPhotosUseCase(private val repository: ContentRepository) {
+class GetAllPhotosUseCase @Inject constructor(
+    private val context: Context,
+    private val repository: ContentRepository
+) {
 
     operator fun invoke(): Single<List<Photo>> {
-        return repository.getAllPhotos()
+        return if (NetworkUtils.isNetworkAvailable(context)) {
+            getPhotosFromServer()
+        } else {
+            getCachedPhotos()
+        }
+    }
+
+    private fun getPhotosFromServer(): Single<List<Photo>> {
+        return repository.getAllPhotosFromServer()
             .map { it.toDomain() }
             .sorted { photo1, photo2 -> (photo2.uploadDate - photo1.uploadDate).toInt() }
             .toList()
+            .doAfterSuccess { photos -> repository.updateCache(photos.map { it.toDb(PhotoType.PAGER) }) }
+            .onErrorReturnItem(emptyList())
+    }
+
+    private fun getCachedPhotos(): Single<List<Photo>> {
+        return repository.isCacheActual()
+            .flatMap { isActual ->
+                if (isActual) {
+                    repository.getAllPhotosFromCache(PhotoType.PAGER)
+                        .map { it.toDomain() }
+                        .toList()
+                } else throw Exception("")
+            }
     }
 }

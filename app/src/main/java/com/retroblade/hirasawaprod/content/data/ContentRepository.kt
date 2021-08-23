@@ -1,75 +1,59 @@
 package com.retroblade.hirasawaprod.content.data
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.retroblade.hirasawaprod.BuildConfig
 import com.retroblade.hirasawaprod.content.data.entity.PhotoEntity
 import com.retroblade.hirasawaprod.content.data.entity.PhotosetInfoEntity
+import com.retroblade.hirasawaprod.content.data.entity.db.PhotoEntityDb
+import com.retroblade.hirasawaprod.content.data.entity.db.PhotoType
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.internal.functions.Functions
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import javax.inject.Inject
 
 
 /**
  * @author m.a.kovalev
  */
-class ContentRepository {
-    private val httpClient = OkHttpClient.Builder()
-        .addInterceptor { chain ->
-            val original = chain.request()
-            val originalHttpUrl = chain.request().url
-            val newUrl = originalHttpUrl.newBuilder()
-                .addQueryParameter("api_key", BuildConfig.API_KEY)
-                .addQueryParameter("extras", BuildConfig.API_CONTENT_EXTRAS)
-                .addQueryParameter("user_id", BuildConfig.API_USER_ID)
-                .addQueryParameter("per_page", BuildConfig.API_ELEMENTS_PER_PAGE.toString())
-                .addQueryParameter("format", "json")
-                .addQueryParameter("nojsoncallback", "1")
-                .build()
-            val request = original.newBuilder().url(newUrl).build()
-            chain.proceed(request)
-        }
-        .addInterceptor(HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
-        .build()
-
+class ContentRepository @Inject constructor(
+    private val contentDao: ContentDao,
+    private val contentService: ContentService
+) {
     @ExperimentalSerializationApi
-    private val service = Retrofit.Builder()
-        .baseUrl("https://www.flickr.com/services/rest/")
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addConverterFactory(
-            Json { ignoreUnknownKeys = true }
-                .asConverterFactory("application/json".toMediaType())
-        )
-
-        .client(httpClient)
-        .build().create(ContentService::class.java)
-
-    @ExperimentalSerializationApi
-    fun getAllPhotos(): Observable<PhotoEntity> {
-        return service.getAllPhotos()
+    fun getAllPhotosFromServer(): Observable<PhotoEntity> {
+        return contentService.getAllPhotos()
             .map { it.photosContainer.photos }
             .flattenAsObservable(Functions.identity())
     }
 
     @ExperimentalSerializationApi
+    fun getAllPhotosFromCache(photoType: PhotoType): Observable<PhotoEntityDb> {
+        return contentDao.getCachedPhotos(photoType)
+            .flattenAsObservable(Functions.identity())
+    }
+
+    @ExperimentalSerializationApi
     fun getAllPhotosets(): Observable<PhotosetInfoEntity> {
-        return service.getAllPhotosets()
+        return contentService.getAllPhotosets()
             .map { it.photosContainer.photosets }
             .flattenAsObservable(Functions.identity())
     }
 
     @ExperimentalSerializationApi
     fun getPhotosByPhotosetId(id: String): Observable<PhotoEntity> {
-        return service.getPhotosByPhotosetId(id)
-            .map {
-                it.photoset.photos
-            }
+        return contentService.getPhotosByPhotosetId(id)
+            .map { it.photoset.photos }
             .flattenAsObservable(Functions.identity())
     }
+
+    fun isCacheActual(): Single<Boolean> {
+        return contentDao.checkCacheActual()
+            .map { it > 0 }
+    }
+
+    fun updateCache(photos: List<PhotoEntityDb>) {
+        contentDao.clearCache()
+        contentDao.cachePhotos(photos)
+    }
+
 
 }

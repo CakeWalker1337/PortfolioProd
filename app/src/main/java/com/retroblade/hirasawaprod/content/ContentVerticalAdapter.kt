@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.retroblade.hirasawaprod.R
 
 
@@ -26,7 +27,9 @@ class ContentVerticalAdapter(container: LinearLayout) : BaseContentAdapter(conta
                 container.addView(frame)
                 Glide.with(imageView)
                     .load(item.url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView)
+
                 likesInfoView.text = item.likes.toString()
                 viewsInfoView.text = item.views.toString()
 
