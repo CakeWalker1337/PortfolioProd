@@ -3,6 +3,7 @@ package com.retroblade.hirasawaprod.content
 import com.retroblade.hirasawaprod.base.BasePresenter
 import com.retroblade.hirasawaprod.content.usecase.GetAllPhotosUseCase
 import com.retroblade.hirasawaprod.content.usecase.GetPagerPhotosUseCase
+import com.retroblade.hirasawaprod.utils.NetworkManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class ContentPresenter @Inject constructor(
     private val getAllPhotos: GetAllPhotosUseCase,
     private val getPagerPhotos: GetPagerPhotosUseCase,
+    private val networkManager: NetworkManager,
     private val contentItemsFactory: ContentItemsFactory
 ) : BasePresenter<ContentView>() {
 
@@ -36,7 +38,9 @@ class ContentPresenter @Inject constructor(
                 viewState.setPopularPhotosItems(contentItems.second)
                 viewState.setRelevantPhotosItems(contentItems.third)
                 viewState.setPagerItems(pagerItems)
-                viewState.showContent()
+
+                val status = if (networkManager.isNetworkAvailable()) ContentStatus.ACTUAL else ContentStatus.CACHED
+                viewState.showContent(status)
             }, {
                 Timber.e(it)
                 viewState.showError()

@@ -20,7 +20,7 @@ interface ContentView : BaseView {
     fun setPagerItems(items: List<PhotoItem>)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showContent()
+    fun showContent(status: ContentStatus)
 
     fun showError()
 }

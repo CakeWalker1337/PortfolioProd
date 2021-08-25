@@ -8,10 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="content_background_color">#EAEAEA</color>
-    <color name="content_progress_background_color">@color/white</color>
+    <color name="content_progress_background_color">#FAFAFA</color>
     <color name="content_progress_foreground_color">#999999</color>
-    <color name="content_foreground_color">@color/white</color>
-    <color name="content_foreground_contrast_color">@color/white</color>
+    <color name="content_foreground_color">#FAFAFA</color>
+    <color name="content_foreground_contrast_color">#FAFAFA</color>
 
     <color name="default_text_color">#808080</color>
     <color name="clickable_text_color">#696969</color>

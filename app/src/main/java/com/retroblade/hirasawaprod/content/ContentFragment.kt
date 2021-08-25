@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.isVisible
+import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+import com.google.android.material.snackbar.Snackbar
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseFragment
 import com.retroblade.hirasawaprod.content.di.ContentModule
@@ -86,12 +89,23 @@ class ContentFragment : BaseFragment(), ContentView {
         recursiveScrolling()
     }
 
-    override fun showContent() {
+    override fun showContent(status: ContentStatus) {
         progress.animate()
             .setStartDelay(2000L)
             .alpha(0.0F)
             .setDuration(400L)
-            .withEndAction { progress.isVisible = false }
+            .withEndAction {
+                progress.isVisible = false
+                if (status == ContentStatus.CACHED) {
+                    val sb = Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
+                        .setBackgroundTint(resources.getColor(R.color.white, requireContext().theme))
+                        .setTextColor(resources.getColor(R.color.default_text_color, requireContext().theme))
+                        .setAnimationMode(ANIMATION_MODE_SLIDE)
+                    sb.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                        ?.setTextAppearance(R.style.RegularText_Size14)
+                    sb.show()
+                }
+            }
             .start()
     }
 
