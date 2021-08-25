@@ -243,5 +243,35 @@
             android:alpha="0"
             android:indeterminateDrawable="@drawable/ic_progress_bar"
             android:indeterminateOnly="true" />
+
+        <LinearLayout
+            android:id="@+id/errorMessageContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:alpha="0.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/loading_error_message"
+                android:textAlignment="center"
+                android:textAppearance="@style/RegularText.Size18" />
+
+            <TextView
+                android:id="@+id/retryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:text="@string/try_again_button_text"
+                android:textAlignment="center"
+                android:textAppearance="@style/RegularText.Clickable.Size18"
+                android:textSize="18sp" />
+        </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

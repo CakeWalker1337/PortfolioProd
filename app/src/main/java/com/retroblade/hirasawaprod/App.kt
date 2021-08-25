@@ -1,7 +1,6 @@
 package com.retroblade.hirasawaprod
 
 import android.app.Application
-import com.github.moxy_community.moxy.androidx.BuildConfig
 import com.retroblade.hirasawaprod.common.di.AppModule
 import com.retroblade.hirasawaprod.common.di.ModuleHolder
 import timber.log.Timber

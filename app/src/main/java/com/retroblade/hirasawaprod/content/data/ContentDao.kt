@@ -13,15 +13,15 @@ import io.reactivex.Single
 @Dao
 interface ContentDao {
 
-    @Query("SELECT * FROM photos WHERE type = :type")
-    fun getCachedPhotos(type: PhotoType): Single<List<PhotoEntityDb>>
+    @Query("SELECT * FROM photos WHERE type = :photoType")
+    fun getCachedPhotos(photoType: PhotoType): Single<List<PhotoEntityDb>>
 
     @Insert
     fun cachePhotos(photos: List<PhotoEntityDb>)
 
-    @Query("DELETE FROM photos")
-    fun clearCache()
+    @Query("DELETE FROM photos WHERE type IN (:photoType, 'UNKNOWN')")
+    fun clearCache(photoType: PhotoType)
 
-    @Query("SELECT count(*) FROM photos")
-    fun checkCacheActual(): Single<Int>
+    @Query("SELECT count(*) FROM photos WHERE type = :photoType")
+    fun checkCacheActual(photoType: PhotoType): Single<Int>
 }

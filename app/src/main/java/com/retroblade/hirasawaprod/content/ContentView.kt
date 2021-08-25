@@ -21,4 +21,6 @@ interface ContentView : BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showContent()
+
+    fun showError()
 }

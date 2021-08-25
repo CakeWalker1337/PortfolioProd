@@ -2,16 +2,14 @@ package com.retroblade.hirasawaprod.content.data.entity.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 /**
  * @author m.a.kovalev
  */
-@Entity(tableName = "photos")
+@Entity(tableName = "photos", primaryKeys = ["id", "type"])
 class PhotoEntityDb(
 
     @ColumnInfo(name = "id")
-    @PrimaryKey
     val id: String,
 
     @ColumnInfo(name = "type")
@@ -30,6 +28,5 @@ class PhotoEntityDb(
     val uploadDate: String,
 
     @ColumnInfo(name = "url")
-    val url: String,
-
-    )
+    val url: String
+)

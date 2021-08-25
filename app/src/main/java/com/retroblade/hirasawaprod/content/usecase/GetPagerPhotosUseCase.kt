@@ -7,8 +7,10 @@ import com.retroblade.hirasawaprod.content.domain.Photo
 import com.retroblade.hirasawaprod.content.mapper.toDb
 import com.retroblade.hirasawaprod.content.mapper.toDomain
 import com.retroblade.hirasawaprod.utils.NetworkUtils
+import com.retroblade.hirasawaprod.utils.exceptions.InvalidCacheException
 import io.reactivex.Single
 import kotlinx.serialization.ExperimentalSerializationApi
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -40,18 +42,24 @@ class GetPagerPhotosUseCase @Inject constructor(
                     .map { photo -> photo.toDomain() }
                     .toList()
             }
-            .doAfterSuccess { photos -> repository.updateCache(photos.map { it.toDb(PhotoType.PAGER) }) }
+            .doAfterSuccess { photos ->
+                repository.updateCache(
+                    PhotoType.PAGER,
+                    photos.map { it.toDb(PhotoType.PAGER) }
+                )
+            }
+            .doOnError { Timber.e(it) }
             .onErrorReturnItem(emptyList())
     }
 
     private fun getCachedPhotos(): Single<List<Photo>> {
-        return repository.isCacheActual()
+        return repository.isCacheActual(PhotoType.PAGER)
             .flatMap { isActual ->
                 if (isActual) {
                     repository.getAllPhotosFromCache(PhotoType.PAGER)
                         .map { it.toDomain() }
                         .toList()
-                } else throw Exception("")
+                } else throw InvalidCacheException("Cache is invalid")
             }
     }
 }

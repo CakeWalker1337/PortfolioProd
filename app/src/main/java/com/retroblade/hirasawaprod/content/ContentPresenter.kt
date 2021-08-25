@@ -20,10 +20,6 @@ class ContentPresenter @Inject constructor(
     private val contentItemsFactory: ContentItemsFactory
 ) : BasePresenter<ContentView>() {
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-    }
-
     @ExperimentalSerializationApi
     fun loadData() {
         getAllPhotos().zipWith(getPagerPhotos()) { contentPhotos, pagerPhotos ->
@@ -43,7 +39,7 @@ class ContentPresenter @Inject constructor(
                 viewState.showContent()
             }, {
                 Timber.e(it)
-                viewState.showToastError("Content isn't available")
+                viewState.showError()
             }).disposeOnFinish()
 
     }

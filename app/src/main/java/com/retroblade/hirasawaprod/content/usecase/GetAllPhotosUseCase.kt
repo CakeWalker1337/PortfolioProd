@@ -7,6 +7,7 @@ import com.retroblade.hirasawaprod.content.domain.Photo
 import com.retroblade.hirasawaprod.content.mapper.toDb
 import com.retroblade.hirasawaprod.content.mapper.toDomain
 import com.retroblade.hirasawaprod.utils.NetworkUtils
+import com.retroblade.hirasawaprod.utils.exceptions.InvalidCacheException
 import io.reactivex.Single
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
@@ -33,18 +34,25 @@ class GetAllPhotosUseCase @Inject constructor(
             .map { it.toDomain() }
             .sorted { photo1, photo2 -> (photo2.uploadDate - photo1.uploadDate).toInt() }
             .toList()
-            .doAfterSuccess { photos -> repository.updateCache(photos.map { it.toDb(PhotoType.PAGER) }) }
-            .onErrorReturnItem(emptyList())
+            .doOnSuccess { photos ->
+                repository.updateCache(
+                    PhotoType.CONTENT,
+                    photos.map { it.toDb(PhotoType.CONTENT) }
+                )
+            }
+            .onErrorResumeNext {
+                getCachedPhotos()
+            }
     }
 
     private fun getCachedPhotos(): Single<List<Photo>> {
-        return repository.isCacheActual()
+        return repository.isCacheActual(PhotoType.CONTENT)
             .flatMap { isActual ->
                 if (isActual) {
-                    repository.getAllPhotosFromCache(PhotoType.PAGER)
+                    repository.getAllPhotosFromCache(PhotoType.CONTENT)
                         .map { it.toDomain() }
                         .toList()
-                } else throw Exception("")
+                } else throw InvalidCacheException("Cache is invalid")
             }
     }
 }

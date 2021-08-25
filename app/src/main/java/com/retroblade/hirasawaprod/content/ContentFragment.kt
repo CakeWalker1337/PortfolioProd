@@ -52,7 +52,7 @@ class ContentFragment : BaseFragment(), ContentView {
             }
         }
         carouselContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-        carouselPager.setOffscreenPageLimit(3)
+        carouselPager.offscreenPageLimit = 3
         carouselPager.adapter = pagerAdapter
 
         recentArtsAdapter = ContentVerticalAdapter(recentArtsRecycler).apply { setOnItemClickListener(::onClickListener) }
@@ -65,8 +65,8 @@ class ContentFragment : BaseFragment(), ContentView {
             lp.bottomMargin = relevantContainer.height + requireContext().dpToPx(MARGIN_OFFSET)
             popularArtsRecycler.layoutParams = lp
         }
-        enableStartAnimation()
-        presenter.loadData()
+        retryButton.setOnClickListener(::onRetryClickedListener)
+        enableStartAnimation { presenter.loadData() }
     }
 
     override fun setRecentPhotosItems(items: List<PhotoItem>) {
@@ -95,6 +95,20 @@ class ContentFragment : BaseFragment(), ContentView {
             .start()
     }
 
+    override fun showError() {
+        progressBar.animate().setStartDelay(0L).setDuration(500L).alpha(0.0F).withEndAction {
+            errorMessageContainer.animate().setStartDelay(200L).setDuration(1000L).alpha(1.0F).start()
+        }.start()
+    }
+
+    private fun onRetryClickedListener(v: View) {
+        errorMessageContainer.animate().setStartDelay(0L).setDuration(500L).alpha(0.0F).withEndAction {
+            progressBar.animate().setStartDelay(200L).setDuration(1000L).alpha(1.0F).withEndAction {
+                presenter.loadData()
+            }.start()
+        }.start()
+    }
+
     private fun onClickListener() {
         val intent = Intent()
         intent.action = Intent.ACTION_VIEW
@@ -103,11 +117,12 @@ class ContentFragment : BaseFragment(), ContentView {
         startActivity(intent)
     }
 
-    private fun enableStartAnimation() {
+    private fun enableStartAnimation(callback: () -> Unit) {
         progressBar.animate()
             .setStartDelay(500L)
             .alpha(1.0F)
             .setDuration(1000L)
+            .withEndAction { callback.invoke() }
             .start()
     }
 
