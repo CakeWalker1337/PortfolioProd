@@ -1,6 +1,8 @@
-package com.retroblade.hirasawaprod.content
+package com.retroblade.hirasawaprod.content.ui
 
 import com.retroblade.hirasawaprod.base.BasePresenter
+import com.retroblade.hirasawaprod.common.CommonPhotoCacheManager
+import com.retroblade.hirasawaprod.content.ui.entity.ContentStatus
 import com.retroblade.hirasawaprod.content.usecase.GetAllPhotosUseCase
 import com.retroblade.hirasawaprod.content.usecase.GetPagerPhotosUseCase
 import com.retroblade.hirasawaprod.utils.NetworkManager
@@ -19,7 +21,8 @@ class ContentPresenter @Inject constructor(
     private val getAllPhotos: GetAllPhotosUseCase,
     private val getPagerPhotos: GetPagerPhotosUseCase,
     private val networkManager: NetworkManager,
-    private val contentItemsFactory: ContentItemsFactory
+    private val contentItemsFactory: ContentItemsFactory,
+    private val photoCacheManager: CommonPhotoCacheManager
 ) : BasePresenter<ContentView>() {
 
     @ExperimentalSerializationApi
@@ -29,6 +32,9 @@ class ContentPresenter @Inject constructor(
             val popularItems = contentItemsFactory.createPopularItems(contentPhotos)
             val relevantItems = contentItemsFactory.createRelevantItems(recentItems, contentPhotos)
             val pagerItems = contentItemsFactory.createPagerItems(pagerPhotos)
+
+            photoCacheManager.fillCache(contentPhotos + pagerPhotos)
+
             Triple(recentItems, popularItems, relevantItems) to pagerItems
         }
             .subscribeOn(Schedulers.io())
@@ -41,8 +47,8 @@ class ContentPresenter @Inject constructor(
 
                 val status = if (networkManager.isNetworkAvailable()) ContentStatus.ACTUAL else ContentStatus.CACHED
                 viewState.showContent(status)
-            }, {
-                Timber.e(it)
+            }, { ex ->
+                Timber.e(ex)
                 viewState.showError()
             }).disposeOnFinish()
 

@@ -1,6 +1,7 @@
-package com.retroblade.hirasawaprod.content
+package com.retroblade.hirasawaprod.content.ui
 
 import com.retroblade.hirasawaprod.content.domain.Photo
+import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import javax.inject.Inject
 
 /**

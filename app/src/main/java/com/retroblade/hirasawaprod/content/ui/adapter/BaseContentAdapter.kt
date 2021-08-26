@@ -1,6 +1,7 @@
-package com.retroblade.hirasawaprod.content
+package com.retroblade.hirasawaprod.content.ui.adapter
 
 import android.widget.LinearLayout
+import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import java.lang.ref.WeakReference
 
 /**
@@ -14,9 +15,9 @@ abstract class BaseContentAdapter(container: LinearLayout) {
 
     protected var containerRef: WeakReference<LinearLayout?>? = null
     protected val items: MutableList<PhotoItem> = mutableListOf()
-    private var clickListener: (() -> Unit)? = null
+    private var clickListener: ((String) -> Unit)? = null
 
-    fun setOnItemClickListener(clickListener: () -> Unit) {
+    fun setOnItemClickListener(clickListener: (String) -> Unit) {
         this.clickListener = clickListener
     }
 
@@ -30,5 +31,5 @@ abstract class BaseContentAdapter(container: LinearLayout) {
         containerRef = WeakReference<LinearLayout?>(newContainer)
     }
 
-    protected abstract fun updateView(clickListener: (() -> Unit)? = null)
+    protected abstract fun updateView(clickListener: ((photoId: String) -> Unit)? = null)
 }

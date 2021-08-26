@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.content
+package com.retroblade.hirasawaprod.content.ui.adapter
 
 import android.view.LayoutInflater
 import android.widget.ImageView
@@ -14,11 +14,12 @@ import com.retroblade.hirasawaprod.R
  */
 class ContentVerticalAdapter(container: LinearLayout) : BaseContentAdapter(container) {
 
-    override fun updateView(clickListener: (() -> Unit)?) {
+    override fun updateView(clickListener: ((photoId: String) -> Unit)?) {
         containerRef?.get()?.let { container ->
             container.removeAllViews()
             val inflater = LayoutInflater.from(container.context)
-            for (item in items) {
+            for (index in 0 until items.size) {
+                val item = items[index]
                 val frame = inflater.inflate(R.layout.item_content_feed_vertical, container, false)
                 val imageView = frame.findViewById<ImageView>(R.id.feedImage)
                 val likesInfoView = frame.findViewById<TextView>(R.id.likesInfoView)
@@ -34,7 +35,7 @@ class ContentVerticalAdapter(container: LinearLayout) : BaseContentAdapter(conta
                 viewsInfoView.text = item.views.toString()
 
                 imageView.setOnClickListener {
-                    clickListener?.invoke()
+                    clickListener?.invoke(items.getOrNull(index)?.id ?: "")
                 }
             }
         }

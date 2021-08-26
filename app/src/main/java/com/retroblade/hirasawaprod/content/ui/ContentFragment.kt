@@ -1,6 +1,5 @@
-package com.retroblade.hirasawaprod.content
+package com.retroblade.hirasawaprod.content.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
@@ -10,10 +9,16 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MOD
 import com.google.android.material.snackbar.Snackbar
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseFragment
+import com.retroblade.hirasawaprod.content.CarouselViewPagerAdapter
 import com.retroblade.hirasawaprod.content.di.ContentModule
+import com.retroblade.hirasawaprod.content.ui.adapter.ContentHorizontalAdapter
+import com.retroblade.hirasawaprod.content.ui.adapter.ContentVerticalAdapter
+import com.retroblade.hirasawaprod.content.ui.entity.ContentStatus
+import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import com.retroblade.hirasawaprod.utils.setTextViewParams
+import com.retroblade.hirasawaprod.viewer.ViewerFragment.Companion.EXTRA_PHOTO
 import kotlinx.android.synthetic.main.fragment_content.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -59,9 +64,9 @@ class ContentFragment : BaseFragment(), ContentView {
         carouselPager.offscreenPageLimit = 3
         carouselPager.adapter = pagerAdapter
 
-        recentArtsAdapter = ContentVerticalAdapter(recentArtsRecycler).apply { setOnItemClickListener(::onClickListener) }
-        popularArtsAdapter = ContentVerticalAdapter(popularArtsRecycler).apply { setOnItemClickListener(::onClickListener) }
-        allArtsAdapter = ContentHorizontalAdapter(allArtsRecycler).apply { setOnItemClickListener(::onClickListener) }
+        recentArtsAdapter = ContentVerticalAdapter(recentArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
+        popularArtsAdapter = ContentVerticalAdapter(popularArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
+        allArtsAdapter = ContentHorizontalAdapter(allArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
 
         followTitle.movementMethod = LinkMovementMethod.getInstance()
         popularArtsRecycler.post {
@@ -69,7 +74,7 @@ class ContentFragment : BaseFragment(), ContentView {
             lp.bottomMargin = relevantContainer.height + requireContext().dpToPx(MARGIN_OFFSET)
             popularArtsRecycler.layoutParams = lp
         }
-        retryButton.setOnClickListener(::onRetryClickedListener)
+        retryButton.setOnClickListener(::onRetryClickListener)
         enableStartAnimation { presenter.loadData() }
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.isRefreshing = false
@@ -125,7 +130,7 @@ class ContentFragment : BaseFragment(), ContentView {
         }.start()
     }
 
-    private fun onRetryClickedListener(v: View) {
+    private fun onRetryClickListener(v: View) {
         errorMessageContainer.animate().setStartDelay(0L).setDuration(500L).alpha(0.0F).withEndAction {
             progressBar.animate().setStartDelay(200L).setDuration(1000L).alpha(1.0F).withEndAction {
                 presenter.loadData()
@@ -133,12 +138,11 @@ class ContentFragment : BaseFragment(), ContentView {
         }.start()
     }
 
-    private fun onClickListener() {
-        val intent = Intent()
-        intent.action = Intent.ACTION_VIEW
-        intent.type = "image/*"
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
+    private fun onPhotoClickListener(photoId: String) {
+        navigateTo(
+            R.id.action_contentFragment_to_viewerFragment,
+            Bundle().apply { putString(EXTRA_PHOTO, photoId) }
+        )
     }
 
     private fun enableStartAnimation(callback: () -> Unit) {

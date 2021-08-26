@@ -5,18 +5,31 @@
     app:startDestination="@id/contentFragment">
     <fragment
         android:id="@+id/contentFragment"
-        android:name="com.retroblade.hirasawaprod.content.ContentFragment"
-        android:label="ContentFragment" />
+        android:name="com.retroblade.hirasawaprod.content.ui.ContentFragment"
+        android:label="ContentFragment">
+        <action
+            android:id="@+id/action_contentFragment_to_viewerFragment"
+            app:destination="@id/viewerFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.retroblade.hirasawaprod.splash.SplashFragment"
         android:label="SplashFragment">
         <action
             android:id="@+id/action_splashFragment_to_contentFragment"
-            app:enterAnim="@anim/slide_in_right"
+            app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_out_left"
             app:destination="@id/contentFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/viewerFragment"
+        android:name="com.retroblade.hirasawaprod.viewer.ViewerFragment"
+        android:label="ViewerFragment" />
+
 </navigation>

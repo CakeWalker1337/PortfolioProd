@@ -12,6 +12,7 @@
     <color name="content_progress_foreground_color">#999999</color>
     <color name="content_foreground_color">#FAFAFA</color>
     <color name="content_foreground_contrast_color">#FAFAFA</color>
+    <color name="content_element_color">#C9C9C9</color>
 
     <color name="default_text_color">#808080</color>
     <color name="clickable_text_color">#696969</color>

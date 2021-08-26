@@ -2,9 +2,9 @@ package com.retroblade.hirasawaprod.content.di
 
 import com.retroblade.hirasawaprod.common.di.DaoProvider
 import com.retroblade.hirasawaprod.common.di.RetrofitProvider
-import com.retroblade.hirasawaprod.content.ContentItemsFactory
 import com.retroblade.hirasawaprod.content.data.ContentDao
 import com.retroblade.hirasawaprod.content.data.ContentService
+import com.retroblade.hirasawaprod.content.ui.ContentItemsFactory
 import toothpick.config.Module
 import javax.inject.Inject
 

@@ -92,4 +92,7 @@ dependencies {
     implementation 'com.github.stephanenicolas.toothpick:ktp:3.1.0'
     kapt 'com.github.stephanenicolas.toothpick:toothpick-compiler:3.1.0'
     implementation 'com.github.stephanenicolas.toothpick:smoothie-androidx:3.1.0'
+
+    implementation 'com.alexvasilkov:gesture-views:2.8.2'
+    implementation 'net.danlew:android.joda:2.10.9.1'
 }

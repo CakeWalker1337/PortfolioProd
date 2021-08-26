@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.retroblade.hirasawaprod.R
+import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_content_carousel.view.*
 

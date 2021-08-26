@@ -1,5 +1,7 @@
 package com.retroblade.hirasawaprod.content.domain
 
+import org.joda.time.DateTime
+
 /**
  * @author m.a.kovalev
  */
@@ -9,7 +11,7 @@ data class Photo(
 
     val title: String,
 
-    val uploadDate: Long,
+    val uploadDate: DateTime,
 
     val likesCount: Int,
 

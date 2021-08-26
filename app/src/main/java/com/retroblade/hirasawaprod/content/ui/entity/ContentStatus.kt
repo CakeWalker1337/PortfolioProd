@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.content
+package com.retroblade.hirasawaprod.content.ui.entity
 
 /**
  * @author m.a.kovalev

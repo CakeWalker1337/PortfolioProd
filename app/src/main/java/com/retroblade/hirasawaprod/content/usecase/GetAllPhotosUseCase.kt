@@ -31,7 +31,7 @@ class GetAllPhotosUseCase @Inject constructor(
     private fun getPhotosFromServer(): Single<List<Photo>> {
         return repository.getAllPhotosFromServer()
             .map { it.toDomain() }
-            .sorted { photo1, photo2 -> (photo2.uploadDate - photo1.uploadDate).toInt() }
+            .sorted { photo1, photo2 -> photo2.uploadDate.compareTo(photo1.uploadDate) }
             .toList()
             .doOnSuccess { photos ->
                 repository.updateCache(
