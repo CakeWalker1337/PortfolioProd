@@ -6,7 +6,9 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 import kotlin.math.roundToInt
 
 /**
@@ -36,15 +38,19 @@ fun ViewPager2.setCurrentItem(
             endFakeDrag()
         }
 
-        override fun onAnimationCancel(animation: Animator?) { /* Ignored */
-        }
+        override fun onAnimationCancel(animation: Animator?) = Unit
 
-        override fun onAnimationRepeat(animation: Animator?) { /* Ignored */
-        }
+        override fun onAnimationRepeat(animation: Animator?) = Unit
+
     })
     animator.interpolator = interpolator
     animator.duration = duration
     animator.start()
+}
+
+fun Snackbar.setTextViewParams(block: TextView.() -> Unit): Snackbar {
+    this.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)?.apply(block)
+    return this
 }
 
 fun Context.dpToPx(dp: Float): Int = (dp * this.resources.displayMetrics.density).roundToInt()

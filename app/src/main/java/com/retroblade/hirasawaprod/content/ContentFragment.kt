@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_SLIDE
 import com.google.android.material.snackbar.Snackbar
@@ -14,6 +13,7 @@ import com.retroblade.hirasawaprod.base.BaseFragment
 import com.retroblade.hirasawaprod.content.di.ContentModule
 import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
+import com.retroblade.hirasawaprod.utils.setTextViewParams
 import kotlinx.android.synthetic.main.fragment_content.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -31,6 +31,7 @@ class ContentFragment : BaseFragment(), ContentView {
     private lateinit var popularArtsAdapter: ContentVerticalAdapter
     private lateinit var allArtsAdapter: ContentHorizontalAdapter
     private var currentItemPos: Int = 0
+    private var isScrollingStarted: Boolean = false
 
     @InjectPresenter
     lateinit var presenter: ContentPresenter
@@ -70,6 +71,13 @@ class ContentFragment : BaseFragment(), ContentView {
         }
         retryButton.setOnClickListener(::onRetryClickedListener)
         enableStartAnimation { presenter.loadData() }
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+            progress.isVisible = true
+            progress.animate().setStartDelay(0L).alpha(1.0F).setDuration(400L).withEndAction {
+                presenter.loadData()
+            }.start()
+        }
     }
 
     override fun setRecentPhotosItems(items: List<PhotoItem>) {
@@ -86,7 +94,10 @@ class ContentFragment : BaseFragment(), ContentView {
 
     override fun setPagerItems(items: List<PhotoItem>) {
         pagerAdapter.setItems(items)
-        recursiveScrolling()
+        if (isScrollingStarted.not()) {
+            recursiveScrolling()
+            isScrollingStarted = true
+        }
     }
 
     override fun showContent(status: ContentStatus) {
@@ -97,13 +108,12 @@ class ContentFragment : BaseFragment(), ContentView {
             .withEndAction {
                 progress.isVisible = false
                 if (status == ContentStatus.CACHED) {
-                    val sb = Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
+                    Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
                         .setBackgroundTint(resources.getColor(R.color.white, requireContext().theme))
                         .setTextColor(resources.getColor(R.color.default_text_color, requireContext().theme))
                         .setAnimationMode(ANIMATION_MODE_SLIDE)
-                    sb.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-                        ?.setTextAppearance(R.style.RegularText_Size14)
-                    sb.show()
+                        .setTextViewParams { setTextAppearance(R.style.RegularText_Size14) }
+                        .show()
                 }
             }
             .start()
