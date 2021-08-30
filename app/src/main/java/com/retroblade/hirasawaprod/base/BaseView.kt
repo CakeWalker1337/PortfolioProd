@@ -1,7 +1,5 @@
 package com.retroblade.hirasawaprod.base
 
-import android.os.Bundle
-import androidx.annotation.IdRes
 import moxy.MvpView
 import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
@@ -11,10 +9,6 @@ import moxy.viewstate.strategy.StateStrategyType
  */
 @StateStrategyType(OneExecutionStateStrategy::class)
 interface BaseView : MvpView {
-
-    fun navigateTo(@IdRes action: Int)
-
-    fun navigateTo(@IdRes action: Int, data: Bundle)
 
     /**
      * Show toast with error [message].

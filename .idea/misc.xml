@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_like.xml" value="0.37135416666666665" />
         <entry key="app/src/main/res/drawable/ic_progress_bar.xml" value="0.37135416666666665" />
         <entry key="app/src/main/res/drawable/ic_views.xml" value="0.37135416666666665" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.17274569402228976" />
         <entry key="app/src/main/res/layout/fragment_content.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.16259057971014493" />
         <entry key="app/src/main/res/layout/fragment_viewer.xml" value="0.335" />

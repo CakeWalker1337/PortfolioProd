@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.retroblade.hirasawaprod.APP_SCOPE
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.common.di.ModuleHolder
@@ -36,19 +33,6 @@ abstract class BaseFragment : MvpAppCompatFragment(), BaseView {
 
     abstract fun getLayoutRes(): Int
 
-    private fun findNavController() = (this as Fragment).findNavController()
-
-    override fun navigateTo(@IdRes action: Int) {
-        findNavController().navigate(action)
-    }
-
-    override fun navigateTo(@IdRes action: Int, data: Bundle) {
-        findNavController().navigate(action, data)
-    }
-
-    open fun navigateBack() {
-        findNavController().popBackStack()
-    }
 
     override fun showToastError(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()

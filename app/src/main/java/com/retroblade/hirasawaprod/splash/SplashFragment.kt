@@ -1,29 +1,26 @@
 package com.retroblade.hirasawaprod.splash
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import com.github.terrakok.cicerone.Router
 import com.retroblade.hirasawaprod.R
+import com.retroblade.hirasawaprod.Screens
+import com.retroblade.hirasawaprod.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_splash.*
+import toothpick.ktp.delegate.inject
 
 /**
  * @author m.a.kovalev
  */
-class SplashFragment : Fragment() {
+class SplashFragment : BaseFragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
-    }
+    private val router: Router by inject<Router>()
+
+    override fun getLayoutRes(): Int = R.layout.fragment_splash
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        scope.inject(this)
         startSplashAnimation()
     }
 
@@ -40,7 +37,7 @@ class SplashFragment : Fragment() {
                 tvUnderLeft.animateBlink(2500L, 3500L)
                 tvUnder.text = "enjoy"
                 tvUnder.animateBlink(2500L, 6000L) {
-                    findNavController().navigate(R.id.action_splashFragment_to_contentFragment)
+                    router.navigateTo(Screens.Content())
                 }
                 tvUnderRight.text = " my works too"
                 tvUnderRight.animateBlink(2500L, 3500L)
@@ -58,7 +55,11 @@ class SplashFragment : Fragment() {
             }.start()
     }
 
-    private companion object {
-        const val TRANSITION_DURATION = 1000L
+    companion object {
+        private const val TRANSITION_DURATION = 1000L
+
+        fun newInstance(): SplashFragment {
+            return SplashFragment()
+        }
     }
 }

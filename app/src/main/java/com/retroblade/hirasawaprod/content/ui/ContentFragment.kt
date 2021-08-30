@@ -2,12 +2,15 @@ package com.retroblade.hirasawaprod.content.ui
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_SLIDE
 import com.google.android.material.snackbar.Snackbar
 import com.retroblade.hirasawaprod.R
+import com.retroblade.hirasawaprod.Screens
 import com.retroblade.hirasawaprod.base.BaseFragment
 import com.retroblade.hirasawaprod.content.CarouselViewPagerAdapter
 import com.retroblade.hirasawaprod.content.di.ContentModule
@@ -18,11 +21,11 @@ import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import com.retroblade.hirasawaprod.utils.setTextViewParams
-import com.retroblade.hirasawaprod.viewer.ViewerFragment.Companion.EXTRA_PHOTO
 import kotlinx.android.synthetic.main.fragment_content.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import toothpick.Scope
+import toothpick.ktp.delegate.inject
 
 
 /**
@@ -37,6 +40,9 @@ class ContentFragment : BaseFragment(), ContentView {
     private lateinit var allArtsAdapter: ContentHorizontalAdapter
     private var currentItemPos: Int = 0
     private var isScrollingStarted: Boolean = false
+    private var _view: View? = null
+
+    private val router: Router by inject<Router>()
 
     @InjectPresenter
     lateinit var presenter: ContentPresenter
@@ -50,8 +56,16 @@ class ContentFragment : BaseFragment(), ContentView {
 
     override fun getLayoutRes(): Int = R.layout.fragment_content
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        if (_view == null) {
+            _view = inflater.inflate(getLayoutRes(), container, false)
+        }
+        return _view
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        scope.inject(this)
         offsetY = requireContext().dpToPx(OFFSET_LIMIT)
         nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             if (scrollY > offsetY) {
@@ -139,10 +153,7 @@ class ContentFragment : BaseFragment(), ContentView {
     }
 
     private fun onPhotoClickListener(photoId: String) {
-        navigateTo(
-            R.id.action_contentFragment_to_viewerFragment,
-            Bundle().apply { putString(EXTRA_PHOTO, photoId) }
-        )
+        router.navigateTo(Screens.Viewer(photoId))
     }
 
     private fun enableStartAnimation(callback: () -> Unit) {
@@ -168,9 +179,13 @@ class ContentFragment : BaseFragment(), ContentView {
         }, 5000L)
     }
 
-    private companion object {
+    companion object {
 
         private const val OFFSET_LIMIT = 220F
         private const val MARGIN_OFFSET = 12F
+
+        fun newInstance(): ContentFragment {
+            return ContentFragment()
+        }
     }
 }
