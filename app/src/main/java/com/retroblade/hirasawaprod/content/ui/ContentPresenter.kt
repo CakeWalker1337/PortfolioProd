@@ -25,6 +25,10 @@ class ContentPresenter @Inject constructor(
     private val photoCacheManager: CommonPhotoCacheManager
 ) : BasePresenter<ContentView>() {
 
+    override fun onFirstViewAttach() {
+        loadData()
+    }
+
     @ExperimentalSerializationApi
     fun loadData() {
         getAllPhotos().zipWith(getPagerPhotos()) { contentPhotos, pagerPhotos ->

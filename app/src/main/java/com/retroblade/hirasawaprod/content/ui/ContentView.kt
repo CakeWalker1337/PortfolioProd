@@ -4,7 +4,6 @@ import com.retroblade.hirasawaprod.base.BaseView
 import com.retroblade.hirasawaprod.content.ui.entity.ContentStatus
 import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 /**
@@ -21,7 +20,6 @@ interface ContentView : BaseView {
 
     fun setPagerItems(items: List<PhotoItem>)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
     fun showContent(status: ContentStatus)
 
     fun showError()
