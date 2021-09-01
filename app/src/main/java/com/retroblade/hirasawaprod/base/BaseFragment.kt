@@ -66,6 +66,8 @@ abstract class BaseFragment : MvpAppCompatFragment(), BaseView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutRes(), container, false)
     }
-}
 
-private const val EXTRA_FRAGMENT_SCOPE_NAME = "EXTRA_FRAGMENT_SCOPE_NAME"
+    private companion object {
+        const val EXTRA_FRAGMENT_SCOPE_NAME = "EXTRA_FRAGMENT_SCOPE_NAME"
+    }
+}

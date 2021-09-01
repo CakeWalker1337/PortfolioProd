@@ -33,6 +33,7 @@ android {
             buildConfigField "String", "API_CAROUSEL_PHOTOSET_NAME", "\"carousel\""
             buildConfigField "String", "API_BASE_URL", "\"https://www.flickr.com/services/rest/\""
             buildConfigField "String", "DB_NAME", "\"hirasawa-db\""
+            buildConfigField "String", "PREFS_NAME", "\"hirasawa-prefs\""
         }
         release {
             minifyEnabled false
