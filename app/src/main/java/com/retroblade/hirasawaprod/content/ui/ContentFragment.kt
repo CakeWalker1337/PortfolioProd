@@ -14,16 +14,22 @@ import com.retroblade.hirasawaprod.content.CarouselViewPagerAdapter
 import com.retroblade.hirasawaprod.content.di.ContentModule
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentHorizontalAdapter
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentVerticalAdapter
+import com.retroblade.hirasawaprod.content.ui.animation.HideErrorMessage
+import com.retroblade.hirasawaprod.content.ui.animation.HideProgressBar
+import com.retroblade.hirasawaprod.content.ui.animation.ShowErrorMessage
+import com.retroblade.hirasawaprod.content.ui.animation.ShowProgressBar
 import com.retroblade.hirasawaprod.content.ui.entity.ContentStatus
 import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import com.retroblade.hirasawaprod.utils.setTextViewParams
+import com.retroblade.hirasawaprod.utils.ui.AnimationManager
 import com.retroblade.hirasawaprod.viewer.ViewerActivity
 import kotlinx.android.synthetic.main.fragment_content.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import toothpick.Scope
+import toothpick.ktp.delegate.inject
 
 
 /**
@@ -32,12 +38,15 @@ import toothpick.Scope
 class ContentFragment : BaseFragment(), ContentView {
 
     private var offsetY: Int = 0
+    private var currentItemPos: Int = 0
+    private var isScrollingStarted: Boolean = false
+
     private val pagerAdapter = CarouselViewPagerAdapter()
     private lateinit var recentArtsAdapter: ContentVerticalAdapter
     private lateinit var popularArtsAdapter: ContentVerticalAdapter
     private lateinit var allArtsAdapter: ContentHorizontalAdapter
-    private var currentItemPos: Int = 0
-    private var isScrollingStarted: Boolean = false
+
+    private val animationManager: AnimationManager by inject<AnimationManager>()
 
     @InjectPresenter
     lateinit var presenter: ContentPresenter
@@ -54,6 +63,13 @@ class ContentFragment : BaseFragment(), ContentView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         scope.inject(this)
+        initPager()
+        initContent()
+        initPullToRefresh()
+        enableStartAnimation()
+    }
+
+    private fun initPager() {
         offsetY = requireContext().dpToPx(OFFSET_LIMIT)
         nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             if (scrollY > offsetY) {
@@ -62,31 +78,36 @@ class ContentFragment : BaseFragment(), ContentView {
                 carouselContainer.translationY = 0F
             }
         }
+
         carouselContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         carouselPager.offscreenPageLimit = 3
         carouselPager.adapter = pagerAdapter
+    }
 
+    private fun initContent() {
         recentArtsAdapter = ContentVerticalAdapter(recentArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
         popularArtsAdapter = ContentVerticalAdapter(popularArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
         allArtsAdapter = ContentHorizontalAdapter(allArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
 
-        followTitle.movementMethod = LinkMovementMethod.getInstance()
         popularArtsRecycler.post {
             val lp = popularArtsRecycler.layoutParams as ViewGroup.MarginLayoutParams
             lp.bottomMargin = relevantContainer.height + requireContext().dpToPx(MARGIN_OFFSET)
             popularArtsRecycler.layoutParams = lp
         }
+        followTitle.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun initPullToRefresh() {
         retryButton.setOnClickListener(::onRetryClickListener)
-        enableStartAnimation { }
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.isRefreshing = false
             progress.isVisible = true
             if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
                 activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
             }
-            progress.animate().setStartDelay(0L).alpha(1.0F).setDuration(400L).withEndAction {
+            animationManager.startAnimation(progress, ShowProgressBar) {
                 presenter.loadData()
-            }.start()
+            }
         }
     }
 
@@ -111,52 +132,46 @@ class ContentFragment : BaseFragment(), ContentView {
     }
 
     override fun showContent(status: ContentStatus) {
-        progress.animate()
-            .setStartDelay(2000L)
-            .alpha(0.0F)
-            .setDuration(400L)
-            .withEndAction {
-                if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
-                    activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
-                }
-                progress.isVisible = false
-                if (status == ContentStatus.CACHED) {
-                    Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
-                        .setBackgroundTint(resources.getColor(R.color.content_snackbar_color, requireContext().theme))
-                        .setTextColor(resources.getColor(R.color.default_text_color, requireContext().theme))
-                        .setAnimationMode(ANIMATION_MODE_SLIDE)
-                        .setTextViewParams { setTextAppearance(R.style.RegularText_Size14) }
-                        .show()
-                }
+        animationManager.startAnimation(progress, HideProgressBar) {
+            if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
+                activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
             }
-            .start()
+            progress.isVisible = false
+            if (status == ContentStatus.CACHED) {
+                Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
+                    .setBackgroundTint(resources.getColor(R.color.content_snackbar_color, requireContext().theme))
+                    .setTextColor(resources.getColor(R.color.default_text_color, requireContext().theme))
+                    .setAnimationMode(ANIMATION_MODE_SLIDE)
+                    .setTextViewParams { setTextAppearance(R.style.RegularText_Size14) }
+                    .show()
+            }
+        }
     }
 
     override fun showError() {
-        progressBar.animate().setStartDelay(0L).setDuration(500L).alpha(0.0F).withEndAction {
-            errorMessageContainer.animate().setStartDelay(200L).setDuration(1000L).alpha(1.0F).start()
-        }.start()
+        with(animationManager) {
+            startAnimation(progress, HideProgressBar) {
+                startAnimation(errorMessageContainer, ShowErrorMessage)
+            }
+        }
     }
 
     private fun onRetryClickListener(v: View) {
-        errorMessageContainer.animate().setStartDelay(0L).setDuration(500L).alpha(0.0F).withEndAction {
-            progressBar.animate().setStartDelay(200L).setDuration(1000L).alpha(1.0F).withEndAction {
-                presenter.loadData()
-            }.start()
-        }.start()
+        with(animationManager) {
+            startAnimation(errorMessageContainer, HideErrorMessage) {
+                startAnimation(progress, ShowProgressBar) {
+                    presenter.loadData()
+                }
+            }
+        }
     }
 
     private fun onPhotoClickListener(photoId: String) {
         startActivity(ViewerActivity.createIntent(requireContext(), photoId))
     }
 
-    private fun enableStartAnimation(callback: () -> Unit) {
-        progressBar.animate()
-            .setStartDelay(500L)
-            .alpha(1.0F)
-            .setDuration(1000L)
-            .withEndAction { callback.invoke() }
-            .start()
+    private fun enableStartAnimation() {
+        animationManager.startAnimation(progress, ShowProgressBar)
     }
 
     private fun recursiveScrolling() {

@@ -6,6 +6,7 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.retroblade.hirasawaprod.common.CommonPhotoCacheManager
 import com.retroblade.hirasawaprod.utils.NetworkManager
+import com.retroblade.hirasawaprod.utils.ui.AnimationManager
 import toothpick.config.Module
 
 /**
@@ -18,6 +19,7 @@ class AppModule(context: Context) : Module() {
         bind(RetrofitProvider::class.java).singleton()
         bind(NetworkManager::class.java).singleton()
         bind(CommonPhotoCacheManager::class.java).singleton()
+        bind(AnimationManager::class.java).singleton()
 
         val cicerone = Cicerone.create()
         bind(Router::class.java).toInstance(cicerone.router)
