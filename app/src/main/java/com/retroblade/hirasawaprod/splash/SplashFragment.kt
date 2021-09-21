@@ -1,5 +1,6 @@
 package com.retroblade.hirasawaprod.splash
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import com.github.terrakok.cicerone.Router
@@ -29,6 +30,9 @@ class SplashFragment : BaseFragment(), SplashView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         scope.inject(this)
+        if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
+            activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
+        }
     }
 
     override fun navigateToContent() {
@@ -41,7 +45,7 @@ class SplashFragment : BaseFragment(), SplashView {
         tvUnder?.animateBlink(500L, 2000L) {
             tvCenter?.text = "I am Hirasawa"
             tvCenter?.animateBlink(500L, 5000L)
-            tvUnder?.text = "An artist with more than 4 years of experience"
+            tvUnder?.text = "An artist with more than 4 years of\u00A0experience"
             tvUnder?.animateBlink(2000L, 3500L) {
                 tvCenter?.text = "I really enjoy drawing"
                 tvCenter?.animateBlink(500L, 5500L)

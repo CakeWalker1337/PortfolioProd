@@ -40,6 +40,7 @@ class ViewerActivity : BaseActivity(), ViewerView {
         viewerContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         presenter.loadData(photoId)
         window.navigationBarColor = getColor(R.color.black)
+        this.title = ""
     }
 
     override fun showPhoto(photo: Photo) {

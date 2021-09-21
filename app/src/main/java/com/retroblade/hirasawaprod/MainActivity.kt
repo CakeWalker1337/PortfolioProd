@@ -1,5 +1,6 @@
 package com.retroblade.hirasawaprod
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import com.github.terrakok.cicerone.NavigatorHolder
@@ -23,6 +24,9 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         navigatorHolder.setNavigator(navigator)
         router.newRootScreen(Screens.Splash())
+        if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
+            window.navigationBarColor = getColor(R.color.content_progress_background_color)
+        }
     }
 
     override fun onBackPressed() {

@@ -1,5 +1,6 @@
 package com.retroblade.hirasawaprod.content.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
@@ -80,6 +81,9 @@ class ContentFragment : BaseFragment(), ContentView {
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.isRefreshing = false
             progress.isVisible = true
+            if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
+                activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
+            }
             progress.animate().setStartDelay(0L).alpha(1.0F).setDuration(400L).withEndAction {
                 presenter.loadData()
             }.start()
@@ -112,10 +116,13 @@ class ContentFragment : BaseFragment(), ContentView {
             .alpha(0.0F)
             .setDuration(400L)
             .withEndAction {
+                if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
+                    activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
+                }
                 progress.isVisible = false
                 if (status == ContentStatus.CACHED) {
                     Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
-                        .setBackgroundTint(resources.getColor(R.color.white, requireContext().theme))
+                        .setBackgroundTint(resources.getColor(R.color.content_snackbar_color, requireContext().theme))
                         .setTextColor(resources.getColor(R.color.default_text_color, requireContext().theme))
                         .setAnimationMode(ANIMATION_MODE_SLIDE)
                         .setTextViewParams { setTextAppearance(R.style.RegularText_Size14) }
