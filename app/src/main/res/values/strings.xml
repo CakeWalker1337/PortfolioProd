@@ -5,4 +5,14 @@
     <string name="snackbar_content_message">Something went wrong. Please, check your internet connection.</string>
     <string name="try_again_button_text"><u>Try again</u>.</string>
     <string name="invalid_image_error_message">Sorry, the image is invalid.</string>
+
+    <!-- Splash animation text -->
+    <string name="text_frame_1">Hello</string>
+    <string name="text_frame_2_1">I am Serometa</string>
+    <string name="text_frame_2_2">An artist with more than %d years of experience</string>
+    <string name="text_frame_3_1">I really enjoy drawing</string>
+    <string name="text_frame_3_2_1">and hope you </string>
+    <string name="text_frame_3_2_2">enjoy</string>
+    <string name="text_frame_3_2_3"> my works too</string>
+
 </resources>

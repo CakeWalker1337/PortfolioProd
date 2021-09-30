@@ -1,6 +1,6 @@
 package com.retroblade.hirasawaprod.content.ui.animation
 
-import com.retroblade.hirasawaprod.utils.ui.AnimationPreset
+import com.retroblade.hirasawaprod.common.ui.AnimationPreset
 
 /**
  * @author m.a.kovalev

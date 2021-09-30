@@ -34,6 +34,7 @@ android {
             buildConfigField "String", "API_BASE_URL", "\"https://www.flickr.com/services/rest/\""
             buildConfigField "String", "DB_NAME", "\"hirasawa-db\""
             buildConfigField "String", "PREFS_NAME", "\"hirasawa-prefs\""
+            buildConfigField "Long", "EXPERIENCE_START_DATE", "1517425200000L"
         }
         release {
             minifyEnabled false

@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.content
+package com.retroblade.hirasawaprod.content.carousel
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_content_carousel.view.*
 /**
  * @author m.a.kovalev
  */
-class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.SyntViewHolder>() {
+class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.ViewHolder>() {
 
     private val items: MutableList<PhotoItem> = mutableListOf()
 
@@ -24,15 +24,15 @@ class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.S
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SyntViewHolder =
-        SyntViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_content_carousel, parent, false)
         )
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: SyntViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             Glide.with(holder.containerView)
                 .load(items[position].url)
@@ -42,6 +42,6 @@ class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.S
         }
     }
 
-    class SyntViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
+    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer
 }

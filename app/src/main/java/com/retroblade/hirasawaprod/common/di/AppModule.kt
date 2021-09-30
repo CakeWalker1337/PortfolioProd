@@ -5,8 +5,8 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.retroblade.hirasawaprod.common.CommonPhotoCacheManager
+import com.retroblade.hirasawaprod.common.ui.AnimationManager
 import com.retroblade.hirasawaprod.utils.NetworkManager
-import com.retroblade.hirasawaprod.utils.ui.AnimationManager
 import toothpick.config.Module
 
 /**

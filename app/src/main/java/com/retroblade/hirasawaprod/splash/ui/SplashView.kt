@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.splash
+package com.retroblade.hirasawaprod.splash.ui
 
 import com.retroblade.hirasawaprod.base.BaseView
 import moxy.viewstate.strategy.AddToEndSingleStrategy

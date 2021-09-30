@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.splash
+package com.retroblade.hirasawaprod.splash.ui
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -7,6 +7,7 @@ import com.github.terrakok.cicerone.Router
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.Screens
 import com.retroblade.hirasawaprod.base.BaseFragment
+import com.retroblade.hirasawaprod.utils.getYearsOfExperienceTillNow
 import kotlinx.android.synthetic.main.fragment_splash.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -41,21 +42,21 @@ class SplashFragment : BaseFragment(), SplashView {
     }
 
     override fun startSplash() {
-        tvUnder?.text = "Hello"
+        tvUnder?.text = getString(R.string.text_frame_1)
         tvUnder?.animateBlink(500L, 2000L) {
-            tvCenter?.text = "I am Hirasawa"
+            tvCenter?.text = getString(R.string.text_frame_2_1)
             tvCenter?.animateBlink(500L, 5000L)
-            tvUnder?.text = "An artist with more than 4 years of\u00A0experience"
+            tvUnder?.text = getString(R.string.text_frame_2_2, getYearsOfExperienceTillNow())
             tvUnder?.animateBlink(2000L, 3500L) {
-                tvCenter?.text = "I really enjoy drawing"
+                tvCenter?.text = getString(R.string.text_frame_3_1)
                 tvCenter?.animateBlink(500L, 5500L)
-                tvUnderLeft?.text = "And hope you "
+                tvUnderLeft?.text = getString(R.string.text_frame_3_2_1)
                 tvUnderLeft?.animateBlink(2500L, 3500L)
-                tvUnder?.text = "enjoy"
+                tvUnder?.text = getString(R.string.text_frame_3_2_2)
                 tvUnder?.animateBlink(2500L, 6000L) {
                     navigateToContent()
                 }
-                tvUnderRight?.text = " my works too"
+                tvUnderRight?.text = getString(R.string.text_frame_3_2_3)
                 tvUnderRight?.animateBlink(2500L, 3500L)
             }
         }

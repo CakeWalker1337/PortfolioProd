@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.utils.ui
+package com.retroblade.hirasawaprod.common.ui
 
 import android.view.View
 import android.view.ViewPropertyAnimator

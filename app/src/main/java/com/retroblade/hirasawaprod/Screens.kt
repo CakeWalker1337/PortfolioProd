@@ -2,7 +2,7 @@ package com.retroblade.hirasawaprod
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.retroblade.hirasawaprod.content.ui.ContentFragment
-import com.retroblade.hirasawaprod.splash.SplashFragment
+import com.retroblade.hirasawaprod.splash.ui.SplashFragment
 
 /**
  * @author m.a.kovalev

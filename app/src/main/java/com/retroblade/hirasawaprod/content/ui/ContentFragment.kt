@@ -10,7 +10,8 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MOD
 import com.google.android.material.snackbar.Snackbar
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseFragment
-import com.retroblade.hirasawaprod.content.CarouselViewPagerAdapter
+import com.retroblade.hirasawaprod.common.ui.AnimationManager
+import com.retroblade.hirasawaprod.content.carousel.CarouselViewPagerAdapter
 import com.retroblade.hirasawaprod.content.di.ContentModule
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentHorizontalAdapter
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentVerticalAdapter
@@ -23,7 +24,6 @@ import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import com.retroblade.hirasawaprod.utils.setTextViewParams
-import com.retroblade.hirasawaprod.utils.ui.AnimationManager
 import com.retroblade.hirasawaprod.viewer.ViewerActivity
 import kotlinx.android.synthetic.main.fragment_content.*
 import moxy.presenter.InjectPresenter
