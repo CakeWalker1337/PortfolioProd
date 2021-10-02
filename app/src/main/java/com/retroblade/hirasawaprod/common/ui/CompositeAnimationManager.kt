@@ -20,6 +20,7 @@ class CompositeAnimationManager private constructor(
     private fun animateRecursive(node: AnimationItemNode, lastEndTiming: Long = 0L) {
         val item = node.item
         item.view.get()?.let { view ->
+            view.text = item.text
             view.animateBlink(
                 startDelay = item.from - lastEndTiming,
                 interval = item.to - item.from,
@@ -50,21 +51,22 @@ class CompositeAnimationManager private constructor(
         private val items: MutableMap<Int, MutableList<AnimationItemNode>> = mutableMapOf()
         private val endNodes: MutableMap<Int, AnimationItemNode> = mutableMapOf()
 
-        fun withFadeInAndOutTime(fadeInTime: Long, fadeOutTime: Long) {
+        fun withFadeInAndOutTime(fadeInTime: Long, fadeOutTime: Long): Builder {
             if (fadeInTime < 0L || fadeOutTime < 0L) {
                 throw IllegalStateException("Fade in/out time must be positive or null")
             }
             this.fadeInTime = fadeInTime
             this.fadeOutTime = fadeOutTime
+            return this
         }
 
-        fun addItem(item: CompositeAnimationItem) {
+        fun addItem(item: CompositeAnimationItem): Builder {
             when {
                 item.from < 0L ->
                     throw IllegalStateException("Item `from` value must be positive")
                 item.to - item.from < 0L ->
                     throw IllegalStateException("Item animation interval must be positive")
-                item.to - item.from > fadeInTime + fadeOutTime ->
+                item.to - item.from < fadeInTime + fadeOutTime ->
                     throw IllegalStateException("Item animation interval must be longer, than current fade in + fade out animation")
             }
             item.view.get()?.let { view ->
@@ -72,17 +74,19 @@ class CompositeAnimationManager private constructor(
                 val itemsForView = items.getOrPut(key, { mutableListOf() })
                 if (itemsForView.find { it.item.from < item.to && it.item.to > item.from } == null) {
                     val itemNode = AnimationItemNode(item = item)
+                    itemsForView.add(itemNode)
                     val endNode = endNodes[key]
                     if (endNode == null) {
                         endNodes.put(key, itemNode)
-                        itemsForView.add(itemNode)
                     } else {
                         endNode.next = itemNode
+                        endNodes[key] = itemNode
                     }
                 } else {
                     throw IllegalStateException("Item interval overlaps with some of other items for this view")
                 }
             }
+            return this
         }
 
         fun build(): CompositeAnimationManager {

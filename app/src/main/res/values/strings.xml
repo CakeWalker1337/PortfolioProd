@@ -11,8 +11,8 @@
     <string name="text_frame_2_1">I am Serometa</string>
     <string name="text_frame_2_2">An artist with more than %d years of experience</string>
     <string name="text_frame_3_1">I really enjoy drawing</string>
-    <string name="text_frame_3_2_1">and hope you </string>
+    <string name="text_frame_3_2_1">and hope you\u00A0</string>
     <string name="text_frame_3_2_2">enjoy</string>
-    <string name="text_frame_3_2_3"> my works too</string>
+    <string name="text_frame_3_2_3">\u00A0my works too</string>
 
 </resources>

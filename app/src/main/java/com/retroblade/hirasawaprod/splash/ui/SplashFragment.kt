@@ -7,11 +7,14 @@ import com.github.terrakok.cicerone.Router
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.Screens
 import com.retroblade.hirasawaprod.base.BaseFragment
+import com.retroblade.hirasawaprod.common.ui.CompositeAnimationItem
+import com.retroblade.hirasawaprod.common.ui.CompositeAnimationManager
 import com.retroblade.hirasawaprod.utils.getYearsOfExperienceTillNow
 import kotlinx.android.synthetic.main.fragment_splash.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import toothpick.ktp.delegate.inject
+import java.lang.ref.WeakReference
 
 /**
  * @author m.a.kovalev
@@ -42,24 +45,30 @@ class SplashFragment : BaseFragment(), SplashView {
     }
 
     override fun startSplash() {
-        tvUnder?.text = getString(R.string.text_frame_1)
-        tvUnder?.animateBlink(500L, 2000L) {
-            tvCenter?.text = getString(R.string.text_frame_2_1)
-            tvCenter?.animateBlink(500L, 5000L)
-            tvUnder?.text = getString(R.string.text_frame_2_2, getYearsOfExperienceTillNow())
-            tvUnder?.animateBlink(2000L, 3500L) {
-                tvCenter?.text = getString(R.string.text_frame_3_1)
-                tvCenter?.animateBlink(500L, 5500L)
-                tvUnderLeft?.text = getString(R.string.text_frame_3_2_1)
-                tvUnderLeft?.animateBlink(2500L, 3500L)
-                tvUnder?.text = getString(R.string.text_frame_3_2_2)
-                tvUnder?.animateBlink(2500L, 6000L) {
-                    navigateToContent()
-                }
-                tvUnderRight?.text = getString(R.string.text_frame_3_2_3)
-                tvUnderRight?.animateBlink(2500L, 3500L)
-            }
-        }
+        CompositeAnimationManager.Builder()
+            .withFadeInAndOutTime(TRANSITION_DURATION, TRANSITION_DURATION)
+            .addItem(CompositeAnimationItem(WeakReference(tvHello), getString(R.string.text_frame_1), 500L, 4000L))
+            .addItem(CompositeAnimationItem(WeakReference(tvCenter), getString(R.string.text_frame_2_1), 4500L, 11500L))
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvUnder),
+                    getString(R.string.text_frame_2_2, getYearsOfExperienceTillNow()),
+                    6500L,
+                    11500L
+                )
+            )
+            .addItem(CompositeAnimationItem(WeakReference(tvCenter), getString(R.string.text_frame_3_1), 12000L, 18500L))
+            .addItem(CompositeAnimationItem(WeakReference(tvUnderLeft), getString(R.string.text_frame_3_2_1), 14000L, 18500L))
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvUnder),
+                    getString(R.string.text_frame_3_2_2),
+                    14000L,
+                    21500L
+                ) { navigateToContent() })
+            .addItem(CompositeAnimationItem(WeakReference(tvUnderRight), getString(R.string.text_frame_3_2_3), 14000L, 18500L))
+            .build()
+            .startAnimation()
     }
 
     private fun View.animateBlink(startDelay: Long, stayTime: Long, callBack: (() -> Unit)? = null) {
