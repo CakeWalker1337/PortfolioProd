@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.viewer
+package com.retroblade.hirasawaprod.viewer.ui
 
 import android.content.Context
 import android.content.Intent

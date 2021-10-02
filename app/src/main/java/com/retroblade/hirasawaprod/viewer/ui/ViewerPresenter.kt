@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.viewer
+package com.retroblade.hirasawaprod.viewer.ui
 
 import com.retroblade.hirasawaprod.base.BasePresenter
 import com.retroblade.hirasawaprod.common.CommonPhotoCacheManager

@@ -45,40 +45,20 @@ class SplashFragment : BaseFragment(), SplashView {
     }
 
     override fun startSplash() {
+        val years = getYearsOfExperienceTillNow()
         CompositeAnimationManager.Builder()
             .withFadeInAndOutTime(TRANSITION_DURATION, TRANSITION_DURATION)
             .addItem(CompositeAnimationItem(WeakReference(tvHello), getString(R.string.text_frame_1), 500L, 4000L))
             .addItem(CompositeAnimationItem(WeakReference(tvCenter), getString(R.string.text_frame_2_1), 4500L, 11500L))
-            .addItem(
-                CompositeAnimationItem(
-                    WeakReference(tvUnder),
-                    getString(R.string.text_frame_2_2, getYearsOfExperienceTillNow()),
-                    6500L,
-                    11500L
-                )
-            )
+            .addItem(CompositeAnimationItem(WeakReference(tvUnder), getString(R.string.text_frame_2_2, years), 6500L, 11500L))
             .addItem(CompositeAnimationItem(WeakReference(tvCenter), getString(R.string.text_frame_3_1), 12000L, 18500L))
             .addItem(CompositeAnimationItem(WeakReference(tvUnderLeft), getString(R.string.text_frame_3_2_1), 14000L, 18500L))
-            .addItem(
-                CompositeAnimationItem(
-                    WeakReference(tvUnder),
-                    getString(R.string.text_frame_3_2_2),
-                    14000L,
-                    21500L
-                ) { navigateToContent() })
+            .addItem(CompositeAnimationItem(WeakReference(tvUnder), getString(R.string.text_frame_3_2_2), 14000L, 21500L) {
+                navigateToContent()
+            })
             .addItem(CompositeAnimationItem(WeakReference(tvUnderRight), getString(R.string.text_frame_3_2_3), 14000L, 18500L))
             .build()
             .startAnimation()
-    }
-
-    private fun View.animateBlink(startDelay: Long, stayTime: Long, callBack: (() -> Unit)? = null) {
-        this.animate().setStartDelay(startDelay).alpha(1.0F).setDuration(TRANSITION_DURATION)
-            .withEndAction {
-                this.animate().setStartDelay(stayTime).alpha(0.0F).setDuration(TRANSITION_DURATION)
-                    .withEndAction {
-                        callBack?.invoke()
-                    }.start()
-            }.start()
     }
 
     companion object {

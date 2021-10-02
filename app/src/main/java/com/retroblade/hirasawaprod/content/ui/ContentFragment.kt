@@ -15,16 +15,13 @@ import com.retroblade.hirasawaprod.content.carousel.CarouselViewPagerAdapter
 import com.retroblade.hirasawaprod.content.di.ContentModule
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentHorizontalAdapter
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentVerticalAdapter
-import com.retroblade.hirasawaprod.content.ui.animation.HideErrorMessage
-import com.retroblade.hirasawaprod.content.ui.animation.HideProgressBar
-import com.retroblade.hirasawaprod.content.ui.animation.ShowErrorMessage
-import com.retroblade.hirasawaprod.content.ui.animation.ShowProgressBar
+import com.retroblade.hirasawaprod.content.ui.animation.*
 import com.retroblade.hirasawaprod.content.ui.entity.ContentStatus
 import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import com.retroblade.hirasawaprod.utils.setTextViewParams
-import com.retroblade.hirasawaprod.viewer.ViewerActivity
+import com.retroblade.hirasawaprod.viewer.ui.ViewerActivity
 import kotlinx.android.synthetic.main.fragment_content.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -101,12 +98,14 @@ class ContentFragment : BaseFragment(), ContentView {
         retryButton.setOnClickListener(::onRetryClickListener)
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.isRefreshing = false
-            progress.isVisible = true
+            overlay.isVisible = true
             if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
                 activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
             }
-            animationManager.startAnimation(progress, ShowProgressBar) {
-                presenter.loadData()
+            animationManager.startAnimation(overlay, HideContent) {
+                animationManager.startAnimation(progressBar, ShowProgressBar) {
+                    presenter.loadData()
+                }
             }
         }
     }
@@ -132,34 +131,40 @@ class ContentFragment : BaseFragment(), ContentView {
     }
 
     override fun showContent(status: ContentStatus) {
-        animationManager.startAnimation(progress, HideProgressBar) {
-            if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
-                activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
-            }
-            progress.isVisible = false
-            if (status == ContentStatus.CACHED) {
-                Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
-                    .setBackgroundTint(resources.getColor(R.color.content_snackbar_color, requireContext().theme))
-                    .setTextColor(resources.getColor(R.color.default_text_color, requireContext().theme))
-                    .setAnimationMode(ANIMATION_MODE_SLIDE)
-                    .setTextViewParams { setTextAppearance(R.style.RegularText_Size14) }
-                    .show()
+        animationManager.startAnimation(progressBar, HideProgressBar) {
+            animationManager.startAnimation(overlay, ShowContent) {
+                if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
+                    activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
+                }
+                overlay.isVisible = false
+                if (status == ContentStatus.CACHED) {
+                    showSnackbarMessage()
+                }
             }
         }
     }
 
     override fun showError() {
         with(animationManager) {
-            startAnimation(progress, HideProgressBar) {
+            startAnimation(progressBar, HideProgressBar) {
                 startAnimation(errorMessageContainer, ShowErrorMessage)
             }
         }
     }
 
+    private fun showSnackbarMessage() {
+        Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
+            .setBackgroundTint(resources.getColor(R.color.content_snackbar_color, requireContext().theme))
+            .setTextColor(resources.getColor(R.color.default_text_color, requireContext().theme))
+            .setAnimationMode(ANIMATION_MODE_SLIDE)
+            .setTextViewParams { setTextAppearance(R.style.RegularText_Size14) }
+            .show()
+    }
+
     private fun onRetryClickListener(v: View) {
         with(animationManager) {
             startAnimation(errorMessageContainer, HideErrorMessage) {
-                startAnimation(progress, ShowProgressBar) {
+                startAnimation(progressBar, ShowProgressBar) {
                     presenter.loadData()
                 }
             }
@@ -171,7 +176,7 @@ class ContentFragment : BaseFragment(), ContentView {
     }
 
     private fun enableStartAnimation() {
-        animationManager.startAnimation(progress, ShowProgressBar)
+        animationManager.startAnimation(progressBar, ShowProgressBar)
     }
 
     private fun recursiveScrolling() {

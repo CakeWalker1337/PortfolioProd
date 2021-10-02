@@ -233,7 +233,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <FrameLayout
-        android:id="@+id/progress"
+        android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
@@ -249,7 +249,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
-            android:alpha="0"
+            android:alpha="0.0"
             android:indeterminateDrawable="@drawable/ic_progress_bar"
             android:indeterminateOnly="true" />
 

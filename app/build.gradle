@@ -28,6 +28,7 @@ android {
             buildConfigField "String", "API_KEY", apikey
             buildConfigField "String", "API_CONTENT_EXTRAS", "\"date_upload,count_views,count_faves,url_l\""
             buildConfigField "String", "API_USER_ID", "\"66460484@N06\""
+            buildConfigField "String", "API_CAROUSEL_PHOTOSET_ID", "\"66460484@N06\""
             //buildConfigField "String", "API_USER_ID", "\"160135731@N04\""
             buildConfigField "Integer", "API_ELEMENTS_PER_PAGE", "20"
             buildConfigField "String", "API_CAROUSEL_PHOTOSET_NAME", "\"carousel\""
