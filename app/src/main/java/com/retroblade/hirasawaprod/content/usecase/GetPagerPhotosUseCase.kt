@@ -1,5 +1,6 @@
 package com.retroblade.hirasawaprod.content.usecase
 
+import com.retroblade.hirasawaprod.BuildConfig
 import com.retroblade.hirasawaprod.content.data.ContentRepository
 import com.retroblade.hirasawaprod.content.data.entity.db.PhotoType
 import com.retroblade.hirasawaprod.content.domain.Photo
@@ -33,14 +34,10 @@ class GetPagerPhotosUseCase @Inject constructor(
     }
 
     private fun getPhotosFromServer(): Single<List<Photo>> {
-        return repository.getAllPhotosets()
-            //.filter { it.title.content.lowercase() == BuildConfig.API_CAROUSEL_PHOTOSET_NAME }
-            .firstOrError()
-            .flatMap { photosetInfo ->
-                repository.getPhotosByPhotosetId(photosetInfo.id)
-                    .map { photo -> photo.toDomain() }
-                    .toList()
-            }
+        return repository.getPhotosByPhotosetId(BuildConfig.API_CAROUSEL_PHOTOSET_ID)
+            .take(MAX_PHOTOS_COUNT)
+            .map { photo -> photo.toDomain() }
+            .toList()
             .doAfterSuccess { photos ->
                 repository.updateCache(
                     PhotoType.PAGER,
@@ -60,5 +57,9 @@ class GetPagerPhotosUseCase @Inject constructor(
                         .toList()
                 } else throw InvalidCacheException("Cache is invalid")
             }
+    }
+
+    private companion object {
+        const val MAX_PHOTOS_COUNT = 4L
     }
 }
