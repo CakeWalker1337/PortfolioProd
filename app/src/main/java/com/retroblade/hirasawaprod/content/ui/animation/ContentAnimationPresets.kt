@@ -15,7 +15,7 @@ internal val ShowContent = AnimationPreset { view ->
 }
 
 internal val HideProgressBar = AnimationPreset { view ->
-    view.animate().setStartDelay(2000L).setDuration(500L).alpha(0.0F)
+    view.animate().setStartDelay(1500L).setDuration(500L).alpha(0.0F)
 }
 
 internal val ShowProgressBar = AnimationPreset { view ->
