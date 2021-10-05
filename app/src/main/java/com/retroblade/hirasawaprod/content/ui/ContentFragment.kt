@@ -10,6 +10,8 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MOD
 import com.google.android.material.snackbar.Snackbar
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseFragment
+import com.retroblade.hirasawaprod.common.navigation.NavigatorHolder
+import com.retroblade.hirasawaprod.common.navigation.ViewerScreen
 import com.retroblade.hirasawaprod.common.ui.AnimationManager
 import com.retroblade.hirasawaprod.content.carousel.CarouselViewPagerAdapter
 import com.retroblade.hirasawaprod.content.di.ContentModule
@@ -21,7 +23,6 @@ import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
 import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import com.retroblade.hirasawaprod.utils.setTextViewParams
-import com.retroblade.hirasawaprod.viewer.ui.ViewerActivity
 import kotlinx.android.synthetic.main.fragment_content.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -44,6 +45,8 @@ class ContentFragment : BaseFragment(), ContentView {
     private lateinit var allArtsAdapter: ContentHorizontalAdapter
 
     private val animationManager: AnimationManager by inject<AnimationManager>()
+
+    private val navigatorHolder: NavigatorHolder by inject()
 
     @InjectPresenter
     lateinit var presenter: ContentPresenter
@@ -172,7 +175,7 @@ class ContentFragment : BaseFragment(), ContentView {
     }
 
     private fun onPhotoClickListener(photoId: String) {
-        startActivity(ViewerActivity.createIntent(requireContext(), photoId))
+        navigatorHolder.getNavigator()?.executeNavigation(requireContext(), ViewerScreen(requireContext(), photoId))
     }
 
     private fun enableStartAnimation() {

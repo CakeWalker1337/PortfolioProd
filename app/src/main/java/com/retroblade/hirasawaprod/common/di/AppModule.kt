@@ -1,10 +1,8 @@
 package com.retroblade.hirasawaprod.common.di
 
 import android.content.Context
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Router
 import com.retroblade.hirasawaprod.common.CommonPhotoCacheManager
+import com.retroblade.hirasawaprod.common.navigation.NavigatorHolder
 import com.retroblade.hirasawaprod.common.ui.AnimationManager
 import com.retroblade.hirasawaprod.utils.NetworkManager
 import toothpick.config.Module
@@ -21,8 +19,6 @@ class AppModule(context: Context) : Module() {
         bind(CommonPhotoCacheManager::class.java).singleton()
         bind(AnimationManager::class.java).singleton()
 
-        val cicerone = Cicerone.create()
-        bind(Router::class.java).toInstance(cicerone.router)
-        bind(NavigatorHolder::class.java).toInstance(cicerone.getNavigatorHolder())
+        bind(NavigatorHolder::class.java).singleton()
     }
 }

@@ -3,10 +3,10 @@ package com.retroblade.hirasawaprod.splash.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
-import com.github.terrakok.cicerone.Router
 import com.retroblade.hirasawaprod.R
-import com.retroblade.hirasawaprod.Screens
 import com.retroblade.hirasawaprod.base.BaseFragment
+import com.retroblade.hirasawaprod.common.navigation.ContentScreen
+import com.retroblade.hirasawaprod.common.navigation.NavigatorHolder
 import com.retroblade.hirasawaprod.common.ui.CompositeAnimationItem
 import com.retroblade.hirasawaprod.common.ui.CompositeAnimationManager
 import com.retroblade.hirasawaprod.utils.getYearsOfExperienceTillNow
@@ -21,13 +21,13 @@ import java.lang.ref.WeakReference
  */
 class SplashFragment : BaseFragment(), SplashView {
 
-    private val router: Router by inject<Router>()
-
     @InjectPresenter
     lateinit var presenter: SplashPresenter
 
     @ProvidePresenter
     fun providePresenter(): SplashPresenter = scope.getInstance(SplashPresenter::class.java)
+
+    private val navigatorHolder: NavigatorHolder by inject()
 
     override fun getLayoutRes(): Int = R.layout.fragment_splash
 
@@ -41,7 +41,7 @@ class SplashFragment : BaseFragment(), SplashView {
 
     override fun navigateToContent() {
         presenter.onSplashShown()
-        router.navigateTo(Screens.Content())
+        navigatorHolder.getNavigator()?.executeNavigation(ContentScreen)
     }
 
     override fun startSplash() {
