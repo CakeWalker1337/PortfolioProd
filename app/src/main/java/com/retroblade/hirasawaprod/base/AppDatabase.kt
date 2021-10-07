@@ -8,7 +8,7 @@ import com.retroblade.hirasawaprod.content.data.entity.db.PhotoEntityDb
 /**
  * @author m.a.kovalev
  */
-@Database(entities = arrayOf(PhotoEntityDb::class), version = 1)
+@Database(entities = [PhotoEntityDb::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun contentDao(): ContentDao

@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.BaseTransientBottomBar.ANIMATION_MODE_SLIDE
 import com.google.android.material.snackbar.Snackbar
+import com.retroblade.hirasawaprod.App
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseFragment
 import com.retroblade.hirasawaprod.common.navigation.NavigatorHolder
 import com.retroblade.hirasawaprod.common.navigation.ViewerScreen
 import com.retroblade.hirasawaprod.common.ui.AnimationManager
 import com.retroblade.hirasawaprod.content.carousel.CarouselViewPagerAdapter
-import com.retroblade.hirasawaprod.content.di.ContentModule
+import com.retroblade.hirasawaprod.content.di.component.DaggerContentComponent
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentHorizontalAdapter
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentVerticalAdapter
 import com.retroblade.hirasawaprod.content.ui.animation.*
@@ -24,10 +25,9 @@ import com.retroblade.hirasawaprod.utils.dpToPx
 import com.retroblade.hirasawaprod.utils.setCurrentItem
 import com.retroblade.hirasawaprod.utils.setTextViewParams
 import kotlinx.android.synthetic.main.fragment_content.*
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
-import toothpick.Scope
-import toothpick.ktp.delegate.inject
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+import javax.inject.Provider
 
 
 /**
@@ -44,25 +44,27 @@ class ContentFragment : BaseFragment(), ContentView {
     private lateinit var popularArtsAdapter: ContentVerticalAdapter
     private lateinit var allArtsAdapter: ContentHorizontalAdapter
 
-    private val animationManager: AnimationManager by inject<AnimationManager>()
+    @Inject
+    lateinit var animationManager: AnimationManager
 
-    private val navigatorHolder: NavigatorHolder by inject()
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
 
-    @InjectPresenter
-    lateinit var presenter: ContentPresenter
+    @Inject
+    lateinit var presenterProvider: Provider<ContentPresenter>
 
-    @ProvidePresenter
-    fun providePresenter(): ContentPresenter = scope.getInstance(ContentPresenter::class.java)
-
-    override fun installModules(scope: Scope) {
-        scope.installModules(moduleHolder.getModule<ContentModule>(scope))
-    }
+    private val presenter by moxyPresenter { presenterProvider.get() }
 
     override fun getLayoutRes(): Int = R.layout.fragment_content
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val appComponent = (requireContext().applicationContext as App).appComponent
+        DaggerContentComponent.factory().create(appComponent).inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        scope.inject(this)
         initPager()
         initContent()
         initPullToRefresh()

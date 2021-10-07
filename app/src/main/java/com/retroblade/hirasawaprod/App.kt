@@ -1,11 +1,9 @@
 package com.retroblade.hirasawaprod
 
 import android.app.Application
-import com.retroblade.hirasawaprod.common.di.AppModule
-import com.retroblade.hirasawaprod.common.di.ModuleHolder
+import com.retroblade.hirasawaprod.common.di.component.AppComponent
+import com.retroblade.hirasawaprod.common.di.component.DaggerAppComponent
 import timber.log.Timber
-import toothpick.configuration.Configuration
-import toothpick.ktp.KTP
 
 
 /**
@@ -13,19 +11,15 @@ import toothpick.ktp.KTP
  */
 class App : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-        initToothpick()
-        initLogger()
+    val appComponent: AppComponent by lazy {
+        // Creates an instance of AppComponent using its Factory constructor
+        // We pass the applicationContext that will be used as Context in the graph
+        DaggerAppComponent.factory().create(applicationContext)
     }
 
-    private fun initToothpick() {
-        if (BuildConfig.DEBUG) {
-            KTP.setConfiguration(Configuration.forDevelopment().preventMultipleRootScopes())
-        } else {
-            KTP.setConfiguration(Configuration.forProduction())
-        }
-        KTP.openRootScope().openSubScope(APP_SCOPE).installModules(AppModule(context = this), ModuleHolder())
+    override fun onCreate() {
+        super.onCreate()
+        initLogger()
     }
 
     private fun initLogger() {

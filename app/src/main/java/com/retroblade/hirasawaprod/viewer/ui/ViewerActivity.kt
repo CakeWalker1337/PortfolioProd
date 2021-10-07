@@ -5,31 +5,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import com.retroblade.hirasawaprod.App
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseActivity
 import com.retroblade.hirasawaprod.content.domain.Photo
 import com.retroblade.hirasawaprod.utils.GlideImageHelper
+import com.retroblade.hirasawaprod.viewer.di.component.DaggerViewerComponent
 import kotlinx.android.synthetic.main.fragment_viewer.*
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
+import moxy.ktx.moxyPresenter
 import org.joda.time.format.DateTimeFormat
+import javax.inject.Inject
+import javax.inject.Provider
 
 /**
  * @author m.a.kovalev
  */
 class ViewerActivity : BaseActivity(), ViewerView {
 
+    @Inject
+    lateinit var presenterProvider: Provider<ViewerPresenter>
+
+    private val presenter by moxyPresenter { presenterProvider.get() }
+
     private val photoId: String? by lazy { intent.getStringExtra(EXTRA_PHOTO_ID) }
 
-    @InjectPresenter
-    lateinit var presenter: ViewerPresenter
-
-    @ProvidePresenter
-    fun providePresenter(): ViewerPresenter = scope.getInstance(ViewerPresenter::class.java)
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        val appComponent = (applicationContext as App).appComponent
+        DaggerViewerComponent.factory().create(appComponent).inject(this)
         super.onCreate(savedInstanceState)
-        scope.inject(this)
         setContentView(R.layout.fragment_viewer)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
@@ -54,11 +57,6 @@ class ViewerActivity : BaseActivity(), ViewerView {
     override fun showError() {
         errorMessageView.isVisible = true
     }
-
-    override fun showToastError(message: String) = Unit
-
-    override fun showAlertError(message: String) = Unit
-
 
     companion object {
         const val EXTRA_PHOTO_ID = "extra_photo_id"

@@ -6,17 +6,18 @@ import android.widget.Toast
 import com.retroblade.hirasawaprod.base.BaseActivity
 import com.retroblade.hirasawaprod.common.navigation.NavigatorHolder
 import com.retroblade.hirasawaprod.common.navigation.SplashScreen
-import toothpick.ktp.delegate.inject
+import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
     private var prevBackPressedTime: Long = 0L
 
-    private val navigatorHolder: NavigatorHolder by inject()
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        scope.inject(this)
+        (applicationContext as App).appComponent.inject(this)
         setContentView(R.layout.activity_main)
         val navigator = navigatorHolder.initNavigator(R.id.container, supportFragmentManager)
         navigator.executeNavigation(SplashScreen)

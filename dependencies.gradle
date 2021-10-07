@@ -1,0 +1,99 @@
+ext.versions = [
+        // ANDROID LIBS
+        kotlin                      : '1.5.21',
+        coreKtx                     : '1.3.2',
+        appcompat                   : '1.2.0',
+
+        // MATERIAL COMPONENTS
+        constraintLayout            : '2.0.1',
+        material                    : '1.2.1',
+        swipeRefreshLayout          : '1.1.0',
+        gestureViews                : '2.8.2',
+
+        // TESTS
+        junit                       : '4.13.2',
+        junitAndroid                : '1.1.3',
+        espresso                    : '3.4.0',
+
+        // DI
+        dagger                      : '2.39',
+
+        //LOG
+        timber                      : '5.0.1',
+
+        moxy                        : '2.1.2',
+
+        //NETWORK
+        retrofit                    : '2.9.0',
+        okhttp3Logging              : '4.9.0',
+        ktxSerializationConverter   : '0.8.0',
+
+        // MULTITHREADING
+        rxJava2                     : '2.2.21',
+        rxAndroid                   : '2.1.1',
+
+        // LOCAL STORAGE
+        room                        : '2.3.0',
+
+        //MEDIA
+        glide                       : '4.12.0',
+
+        // SYSTEM UTILS
+        jodaTime                    : '2.10.9.1',
+        ktxSerializationJson        : '1.2.2',
+]
+
+ext.libraries = [
+
+        // ANDROID LIBS
+        kotlin                      : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
+        appcompat                   : "androidx.appcompat:appcompat:$versions.appcompat",
+        coreKtx                     : "androidx.core:core-ktx:$versions.coreKtx",
+
+        // MATERIAL COMPONENTS
+        material                    : "com.google.android.material:material:$versions.material",
+        swipeRefreshLayout          : "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swipeRefreshLayout",
+        constraintLayout            : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
+        gestureViews                : "com.alexvasilkov:gesture-views:$versions.gestureViews",
+
+        //MEDIA
+        glide                       : "com.github.bumptech.glide:glide:$versions.glide",
+        glideCompiler               : "com.github.bumptech.glide:compiler:$versions.glide",
+
+        // TESTS
+        junit                       : "junit:junit:$versions.junit",
+        junitAndroid                : "androidx.test.ext:junit:$versions.junitAndroid",
+        espresso                    : "androidx.test.espresso:espresso-core:$versions.espresso",
+
+        // DI
+        dagger                      : "com.google.dagger:dagger:$versions.dagger",
+        daggerCompiler              : "com.google.dagger:dagger-compiler:$versions.dagger",
+
+        //LOG
+        timber                      : "com.jakewharton.timber:timber:$versions.timber",
+
+        // ARCHITECTURE
+        moxy                        : "com.github.moxy-community:moxy:$versions.moxy",
+        moxyCompiler                : "com.github.moxy-community:moxy-compiler:$versions.moxy",
+        moxyAppCompatX              : "com.github.moxy-community:moxy-androidx:$versions.moxy",
+        moxyKtx                     : "com.github.moxy-community:moxy-ktx:$versions.moxy",
+
+        //NETWORK
+        retrofit                    : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        retrofitRxJavaAdapter       : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
+        okhttp3Logging              : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp3Logging",
+        ktxSerializationConverter   : "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$versions.ktxSerializationConverter",
+
+        // MULTITHREADING
+        rxJava                      : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
+        rxAndroid                   : "io.reactivex.rxjava2:rxandroid:$versions.rxAndroid",
+
+        //LOCAL STORAGE
+        room                        : "androidx.room:room-runtime:$versions.room",
+        roomCompiler                : "androidx.room:room-compiler:$versions.room",
+        roomRxJava                  : "androidx.room:room-rxjava2:$versions.room",
+
+        //SYSTEM UTILS
+        jodaTime                    : "net.danlew:android.joda:$versions.jodaTime",
+        ktxSerializationJson        : "org.jetbrains.kotlinx:kotlinx-serialization-json:$versions.ktxSerializationJson",
+]
