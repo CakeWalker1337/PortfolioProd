@@ -2,8 +2,8 @@ package com.retroblade.hirasawaprod.base
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.retroblade.hirasawaprod.content.data.ContentDao
-import com.retroblade.hirasawaprod.content.data.entity.db.PhotoEntityDb
+import com.retroblade.hirasawaprod.feature.content.data.ContentDao
+import com.retroblade.hirasawaprod.feature.content.data.entity.db.PhotoEntityDb
 
 /**
  * A database class that represents a database with entities and provides data access objects for them

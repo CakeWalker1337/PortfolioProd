@@ -1,6 +1,6 @@
 package com.retroblade.hirasawaprod.common
 
-import com.retroblade.hirasawaprod.content.domain.Photo
+import com.retroblade.hirasawaprod.feature.content.domain.Photo
 import javax.inject.Inject
 
 /**

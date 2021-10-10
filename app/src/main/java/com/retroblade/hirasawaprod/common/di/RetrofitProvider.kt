@@ -2,7 +2,7 @@ package com.retroblade.hirasawaprod.common.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.retroblade.hirasawaprod.BuildConfig
-import com.retroblade.hirasawaprod.content.data.ContentService
+import com.retroblade.hirasawaprod.feature.content.data.ContentService
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType

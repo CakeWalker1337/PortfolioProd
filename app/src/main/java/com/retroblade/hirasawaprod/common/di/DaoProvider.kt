@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.retroblade.hirasawaprod.BuildConfig
 import com.retroblade.hirasawaprod.base.AppDatabase
-import com.retroblade.hirasawaprod.content.data.ContentDao
+import com.retroblade.hirasawaprod.feature.content.data.ContentDao
 import javax.inject.Inject
 
 /**

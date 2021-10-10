@@ -2,9 +2,9 @@ package com.retroblade.hirasawaprod.common.navigation
 
 import android.content.Context
 import com.retroblade.hirasawaprod.common.navigation.screens.ActivityScreen
-import com.retroblade.hirasawaprod.content.ui.ContentFragment
-import com.retroblade.hirasawaprod.splash.ui.SplashFragment
-import com.retroblade.hirasawaprod.viewer.ui.ViewerActivity
+import com.retroblade.hirasawaprod.feature.content.ui.ContentFragment
+import com.retroblade.hirasawaprod.feature.splash.ui.SplashFragment
+import com.retroblade.hirasawaprod.feature.viewer.ui.ViewerActivity
 
 /**
  * Screens for navigator
