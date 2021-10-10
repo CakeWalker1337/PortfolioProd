@@ -12,7 +12,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.retroblade.hirasawaprod"
+        applicationId "com.retroblade.portfolioprod"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
