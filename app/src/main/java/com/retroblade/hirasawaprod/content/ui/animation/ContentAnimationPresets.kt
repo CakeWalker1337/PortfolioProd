@@ -3,7 +3,7 @@ package com.retroblade.hirasawaprod.content.ui.animation
 import com.retroblade.hirasawaprod.common.ui.AnimationPreset
 
 /**
- * @author m.a.kovalev
+ * The extension file contains some content animation presets used in animation manager
  */
 
 internal val HideContent = AnimationPreset { view ->

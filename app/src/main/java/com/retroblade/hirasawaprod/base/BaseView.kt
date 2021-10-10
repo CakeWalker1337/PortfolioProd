@@ -5,7 +5,7 @@ import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 /**
- * @author m.a.kovalev
+ * A base view interface represents some base methods for each view
  */
 @StateStrategyType(OneExecutionStateStrategy::class)
 interface BaseView : MvpView {

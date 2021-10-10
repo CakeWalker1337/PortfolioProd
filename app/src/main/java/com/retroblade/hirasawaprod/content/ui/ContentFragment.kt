@@ -14,10 +14,10 @@ import com.retroblade.hirasawaprod.base.BaseFragment
 import com.retroblade.hirasawaprod.common.navigation.NavigatorHolder
 import com.retroblade.hirasawaprod.common.navigation.ViewerScreen
 import com.retroblade.hirasawaprod.common.ui.AnimationManager
-import com.retroblade.hirasawaprod.content.carousel.CarouselViewPagerAdapter
 import com.retroblade.hirasawaprod.content.di.component.DaggerContentComponent
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentHorizontalAdapter
 import com.retroblade.hirasawaprod.content.ui.adapter.ContentVerticalAdapter
+import com.retroblade.hirasawaprod.content.ui.adapter.carousel.CarouselViewPagerAdapter
 import com.retroblade.hirasawaprod.content.ui.animation.*
 import com.retroblade.hirasawaprod.content.ui.entity.ContentStatus
 import com.retroblade.hirasawaprod.content.ui.entity.PhotoItem
@@ -31,11 +31,14 @@ import javax.inject.Provider
 
 
 /**
- * @author m.a.kovalev
+ * A fragment class for representing main content
  */
 class ContentFragment : BaseFragment(), ContentView {
 
+    //
     private var offsetY: Int = 0
+
+    // pager state variables
     private var currentItemPos: Int = 0
     private var isScrollingStarted: Boolean = false
 
@@ -71,9 +74,13 @@ class ContentFragment : BaseFragment(), ContentView {
         enableStartAnimation()
     }
 
+    /**
+     * Inits viewpager component
+     */
     private fun initPager() {
         offsetY = requireContext().dpToPx(OFFSET_LIMIT)
         nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            // if main card gets scrolled up and touches status bar, we must push carousel up as well
             if (scrollY > offsetY) {
                 carouselContainer.translationY = -(scrollY - offsetY).toFloat()
             } else {
@@ -81,38 +88,56 @@ class ContentFragment : BaseFragment(), ContentView {
             }
         }
 
+        // pager must be "under" status bar, so we need to apply fullscreen mode
         carouselContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-        carouselPager.offscreenPageLimit = 3
         carouselPager.adapter = pagerAdapter
     }
 
+    /**
+     * Inits main content components (cards)
+     */
     private fun initContent() {
         recentArtsAdapter = ContentVerticalAdapter(recentArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
         popularArtsAdapter = ContentVerticalAdapter(popularArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
         allArtsAdapter = ContentHorizontalAdapter(allArtsRecycler).apply { setOnItemClickListener(::onPhotoClickListener) }
 
+        // create the effect like relevant works card "covers" popular works card
         popularArtsRecycler.post {
             val lp = popularArtsRecycler.layoutParams as ViewGroup.MarginLayoutParams
             lp.bottomMargin = relevantContainer.height + requireContext().dpToPx(MARGIN_OFFSET)
             popularArtsRecycler.layoutParams = lp
         }
+        // make twitter link clickable inside the textview
         followTitle.movementMethod = LinkMovementMethod.getInstance()
     }
 
+    /**
+     * Inits pull-to-refresh feature
+     */
     private fun initPullToRefresh() {
         retryButton.setOnClickListener(::onRetryClickListener)
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.isRefreshing = false
             overlay.isVisible = true
+            // when we launch the update animation (progress), the status bar color must be changed to dark,
+            // otherwise status bar elements will not be visible on white layer (if it's not a night mode)
             if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
                 activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
             }
+            // start change layer animation and launch refreshing data
             animationManager.startAnimation(overlay, HideContent) {
                 animationManager.startAnimation(progressBar, ShowProgressBar) {
                     presenter.loadData()
                 }
             }
         }
+    }
+
+    /**
+     * Launches start progress animation
+     */
+    private fun enableStartAnimation() {
+        animationManager.startAnimation(progressBar, ShowProgressBar)
     }
 
     override fun setRecentPhotosItems(items: List<PhotoItem>) {
@@ -128,7 +153,11 @@ class ContentFragment : BaseFragment(), ContentView {
     }
 
     override fun setPagerItems(items: List<PhotoItem>) {
+        // preload items in carousel to avoid loading as soon as the item is being scrolled
+        carouselPager.offscreenPageLimit = items.size
         pagerAdapter.setItems(items)
+        // launch recursive scrolling if it's not launched already (for example if we execute pull-to-refresh,
+        // the scrolling is already launched and no need to launch it again)
         if (isScrollingStarted.not()) {
             recursiveScrolling()
             isScrollingStarted = true
@@ -138,6 +167,7 @@ class ContentFragment : BaseFragment(), ContentView {
     override fun showContent(status: ContentStatus) {
         animationManager.startAnimation(progressBar, HideProgressBar) {
             animationManager.startAnimation(overlay, ShowContent) {
+                // change system navbar color to dark after returning to content state (if it's not a night mode)
                 if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
                     activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
                 }
@@ -157,6 +187,9 @@ class ContentFragment : BaseFragment(), ContentView {
         }
     }
 
+    /**
+     * Creates error message and displays it on screen as a snackbar
+     */
     private fun showSnackbarMessage() {
         Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
             .setBackgroundTint(resources.getColor(R.color.content_snackbar_color, requireContext().theme))
@@ -166,6 +199,9 @@ class ContentFragment : BaseFragment(), ContentView {
             .show()
     }
 
+    /**
+     * Retry button click listener
+     */
     private fun onRetryClickListener(v: View) {
         with(animationManager) {
             startAnimation(errorMessageContainer, HideErrorMessage) {
@@ -176,14 +212,16 @@ class ContentFragment : BaseFragment(), ContentView {
         }
     }
 
+    /**
+     * Processes click on photo wiht [photoId]
+     */
     private fun onPhotoClickListener(photoId: String) {
         navigatorHolder.getNavigator()?.executeNavigation(requireContext(), ViewerScreen(requireContext(), photoId))
     }
 
-    private fun enableStartAnimation() {
-        animationManager.startAnimation(progressBar, ShowProgressBar)
-    }
-
+    /**
+     * Inits recursive carousel scrolling
+     */
     private fun recursiveScrolling() {
         carouselPager?.postDelayed({
             carouselPager?.adapter?.let { adapter ->
@@ -192,16 +230,19 @@ class ContentFragment : BaseFragment(), ContentView {
                 } else {
                     currentItemPos++
                 }
-                carouselPager.setCurrentItem(currentItemPos, 1000L)
+                carouselPager.setCurrentItem(currentItemPos, CAROUSEL_CHANGE_ITEM_DURATION)
                 recursiveScrolling()
             }
-        }, 5000L)
+        }, CAROUSEL_HOLD_ITEM_DURATION)
     }
 
     companion object {
 
         private const val OFFSET_LIMIT = 220F
         private const val MARGIN_OFFSET = 12F
+
+        private const val CAROUSEL_CHANGE_ITEM_DURATION = 1000L
+        private const val CAROUSEL_HOLD_ITEM_DURATION = 5000L
 
         fun newInstance(): ContentFragment {
             return ContentFragment()

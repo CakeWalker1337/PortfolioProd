@@ -13,14 +13,16 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Inject
 
 /**
- * @author m.a.kovalev
+ * A provider class for retrieving instances of api services
  */
 class RetrofitProvider @Inject constructor() {
+
     private val httpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val original = chain.request()
             val originalHttpUrl = chain.request().url
             val newUrl = originalHttpUrl.newBuilder()
+                // adding parameters that will be passed in EACH request
                 .addQueryParameter("api_key", BuildConfig.API_KEY)
                 .addQueryParameter("extras", BuildConfig.API_CONTENT_EXTRAS)
                 .addQueryParameter("user_id", BuildConfig.API_USER_ID)
@@ -33,7 +35,6 @@ class RetrofitProvider @Inject constructor() {
         }
         .addInterceptor(HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
         .build()
-
 
     @ExperimentalSerializationApi
     val contentService: ContentService = Retrofit.Builder()

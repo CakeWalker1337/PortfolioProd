@@ -9,7 +9,7 @@ import dagger.Module
 import dagger.Provides
 
 /**
- * @author m.a.kovalev
+ * Dagger module contains provided instances of dependencies represented in content component
  */
 @Module
 class ContentModule {

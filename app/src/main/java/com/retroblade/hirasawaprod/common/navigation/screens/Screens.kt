@@ -7,7 +7,7 @@ import com.retroblade.hirasawaprod.splash.ui.SplashFragment
 import com.retroblade.hirasawaprod.viewer.ui.ViewerActivity
 
 /**
- * @author m.a.kovalev
+ * Screens for navigator
  */
 
 object SplashScreen : FragmentScreen {

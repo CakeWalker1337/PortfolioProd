@@ -6,7 +6,7 @@ import com.retroblade.hirasawaprod.content.data.ContentDao
 import com.retroblade.hirasawaprod.content.data.entity.db.PhotoEntityDb
 
 /**
- * @author m.a.kovalev
+ * A database class that represents a database with entities and provides data access objects for them
  */
 @Database(entities = [PhotoEntityDb::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

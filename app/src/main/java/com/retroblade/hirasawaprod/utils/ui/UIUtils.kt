@@ -12,17 +12,25 @@ import com.google.android.material.snackbar.Snackbar
 import kotlin.math.roundToInt
 
 /**
- * @author m.a.kovalev
+ * Util extensions for UI components
+ */
+
+/**
+ * Sets [item] to the active position. Uses fake drag
+ * @param duration transition animation duration
+ * @param interpolator animation interpolator
+ * @param pagePxWidth current width of viewpager. getWidth() by default
  */
 fun ViewPager2.setCurrentItem(
     item: Int,
     duration: Long,
     interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
-    pagePxWidth: Int = width // Default value taken from getWidth() from ViewPager2 view
+    pagePxWidth: Int = width
 ) {
     val pxToDrag: Int = pagePxWidth * (item - currentItem)
     val animator = ValueAnimator.ofInt(0, pxToDrag)
     var previousValue = 0
+
     animator.addUpdateListener { valueAnimator ->
         val currentValue = valueAnimator.animatedValue as Int
         val currentPxToDrag = (currentValue - previousValue).toFloat()
@@ -48,11 +56,20 @@ fun ViewPager2.setCurrentItem(
     animator.start()
 }
 
+/**
+ * Customises text view inside snackbar by applying proper customization [block]
+ */
 fun Snackbar.setTextViewParams(block: TextView.() -> Unit): Snackbar {
     this.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)?.apply(block)
     return this
 }
 
+/**
+ * Converts [dp] value to pixels
+ */
 fun Context.dpToPx(dp: Float): Int = (dp * this.resources.displayMetrics.density).roundToInt()
 
+/**
+ * Converts [dp] value to pixels
+ */
 fun View.dpToPx(dp: Float): Int = this.context.dpToPx(dp)

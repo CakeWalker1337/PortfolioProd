@@ -5,12 +5,16 @@ import io.reactivex.disposables.Disposable
 import moxy.MvpPresenter
 
 /**
- * @author m.a.kovalev
+ * A base presenter class contains base methods for any presenter class
+ * Particularly holds all disposables which are being executed till the end of the lifecycle.
  */
 open class BasePresenter<V : BaseView> : MvpPresenter<V>() {
 
     private val compositeDisposable = CompositeDisposable()
 
+    /**
+     * Stores [this] disposable till the end of the lifecycle
+     */
     fun Disposable.disposeOnFinish() {
         compositeDisposable.add(this)
     }

@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.retroblade.hirasawaprod.content.data.entity.db.PhotoType
 
 /**
- * @author m.a.kovalev
+ * Util class contains converters for entities used in room
  */
 class RoomConverters {
 

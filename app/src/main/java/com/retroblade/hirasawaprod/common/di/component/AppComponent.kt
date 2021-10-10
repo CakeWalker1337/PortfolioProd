@@ -10,7 +10,9 @@ import dagger.Component
 import javax.inject.Singleton
 
 /**
- * @author m.a.kovalev
+ * Dagger component for app-level dependencies. Represents the dependencies provided into another components.
+ * The lifetime of this component is "Singleton", which means that dependencies will be the same in each component,
+ * where app component will be used in.
  */
 @Component(
     modules = [

@@ -1,11 +1,17 @@
 package com.retroblade.hirasawaprod.utils
 
-import com.retroblade.hirasawaprod.BuildConfig
 import org.joda.time.DateTime
 
 /**
- * @author m.a.kovalev
+ * Util class contains methods for working with dates
  */
-fun getYearsOfExperienceTillNow(): Int {
-    return DateTime.now().year - DateTime(BuildConfig.EXPERIENCE_START_DATE).year
+object DateUtils {
+
+    /**
+     * Calculates the integer number of years since [fromTime] timestamp
+     * @return number of years
+     */
+    fun getYearsTillNow(fromTime: Long): Int {
+        return DateTime.now().year - DateTime(fromTime).year
+    }
 }

@@ -7,7 +7,7 @@ import com.retroblade.hirasawaprod.content.domain.Photo
 import org.joda.time.DateTime
 
 /**
- * @author m.a.kovalev
+ * Mappers between domain and entity models
  */
 
 fun PhotoEntity.toDomain(): Photo =

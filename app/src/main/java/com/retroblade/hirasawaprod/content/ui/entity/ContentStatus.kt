@@ -1,7 +1,7 @@
 package com.retroblade.hirasawaprod.content.ui.entity
 
 /**
- * @author m.a.kovalev
+ * Enum class represents possible content screen status
  */
 enum class ContentStatus {
     ACTUAL,

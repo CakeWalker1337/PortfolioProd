@@ -8,7 +8,7 @@ import com.retroblade.hirasawaprod.content.data.entity.db.PhotoType
 import io.reactivex.Single
 
 /**
- * @author m.a.kovalev
+ * Content data access object. Contains requests to content database
  */
 @Dao
 interface ContentDao {

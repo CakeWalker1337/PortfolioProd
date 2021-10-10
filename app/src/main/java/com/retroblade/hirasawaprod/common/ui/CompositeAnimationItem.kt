@@ -4,7 +4,8 @@ import android.widget.TextView
 import java.lang.ref.WeakReference
 
 /**
- * @author m.a.kovalev
+ * A class that represents a structure of "node" for animation manager
+ * @see CompositeAnimationManager
  */
 class CompositeAnimationItem(
     val view: WeakReference<TextView>,

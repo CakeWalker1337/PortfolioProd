@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * @author m.a.kovalev
+ * A wrapper entity class contains the metadata of the set of photos data
  */
 @Serializable
 class PhotosContainerEntity(

@@ -6,7 +6,7 @@ import moxy.InjectViewState
 import javax.inject.Inject
 
 /**
- * @author m.a.kovalev
+ * Presenter for splash screen. Contains business logic for loading and processing data
  */
 @InjectViewState
 class SplashPresenter @Inject constructor(
@@ -17,6 +17,9 @@ class SplashPresenter @Inject constructor(
         loadData()
     }
 
+    /**
+     * Loads splash screen data
+     */
     fun loadData() {
         if (preferenceManager.wasSplashShown()) {
             viewState.navigateToContent()
@@ -25,7 +28,10 @@ class SplashPresenter @Inject constructor(
         }
     }
 
-    fun onSplashShown() {
+    /**
+     * Executes some logic when splash screen is shown (finished its animation)
+     */
+    fun handleOnSplashShown() {
         preferenceManager.setSplashShown(true)
     }
 }

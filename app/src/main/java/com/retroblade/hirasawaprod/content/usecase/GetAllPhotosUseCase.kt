@@ -12,7 +12,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
 /**
- * @author m.a.kovalev
+ * Gets all photos from source. The source depends on network connection
  */
 @ExperimentalSerializationApi
 class GetAllPhotosUseCase @Inject constructor(
@@ -28,6 +28,10 @@ class GetAllPhotosUseCase @Inject constructor(
         }
     }
 
+    /**
+     * Gets photos from server and updates cache. If there is an error happens while receiving data, it gets cached data.
+     * @return single, that represents list of domain photo oblects
+     */
     private fun getPhotosFromServer(): Single<List<Photo>> {
         return repository.getAllPhotosFromServer()
             .map { it.toDomain() }
@@ -44,6 +48,11 @@ class GetAllPhotosUseCase @Inject constructor(
             }
     }
 
+    /**
+     * Retrieves photos from cache.
+     * @return single, that represents the list of domain photo objects
+     * @throws InvalidCacheException if cache is empty
+     */
     private fun getCachedPhotos(): Single<List<Photo>> {
         return repository.isCacheActual(PhotoType.CONTENT)
             .flatMap { isActual ->

@@ -7,7 +7,8 @@ import com.retroblade.hirasawaprod.splash.ui.SplashFragment
 import dagger.Component
 
 /**
- * @author m.a.kovalev
+ * Dagger component for splash feature. Represents the dependencies provided into another components
+ * Actually, this component doesn't expose anything to other components
  */
 @Component(
     dependencies = [

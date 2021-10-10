@@ -3,7 +3,7 @@ package com.retroblade.hirasawaprod.splash.di
 import javax.inject.Scope
 
 /**
- * @author m.a.kovalev
+ * A scope for splash screen. Marks the lifetime of viewer dependencies
  */
 @Scope
 @Retention(AnnotationRetention.RUNTIME)

@@ -14,10 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * @author m.a.kovalev
- */
-/**
- * @author m.a.kovalev
+ * Retrieves photos for pager carousel. The source depends on network connection
  */
 @ExperimentalSerializationApi
 class GetPagerPhotosUseCase @Inject constructor(
@@ -33,9 +30,12 @@ class GetPagerPhotosUseCase @Inject constructor(
         }
     }
 
+    /**
+     * Gets photos from server and updates cache. If there is an error happens while receiving data, it gets cached data.
+     * @return single, that represents list of domain photo oblects
+     */
     private fun getPhotosFromServer(): Single<List<Photo>> {
         return repository.getPhotosByPhotosetId(BuildConfig.API_CAROUSEL_PHOTOSET_ID)
-            .take(MAX_PHOTOS_COUNT)
             .map { photo -> photo.toDomain() }
             .toList()
             .doAfterSuccess { photos ->
@@ -45,9 +45,14 @@ class GetPagerPhotosUseCase @Inject constructor(
                 )
             }
             .doOnError { Timber.e(it) }
-            .onErrorReturnItem(emptyList())
+            .onErrorResumeNext { getCachedPhotos() }
     }
 
+    /**
+     * Retrieves photos from cache.
+     * @return single, that represents the list of domain photo objects
+     * @throws InvalidCacheException if cache is empty
+     */
     private fun getCachedPhotos(): Single<List<Photo>> {
         return repository.isCacheActual(PhotoType.PAGER)
             .flatMap { isActual ->
@@ -57,9 +62,5 @@ class GetPagerPhotosUseCase @Inject constructor(
                         .toList()
                 } else throw InvalidCacheException("Cache is invalid")
             }
-    }
-
-    private companion object {
-        const val MAX_PHOTOS_COUNT = 4L
     }
 }

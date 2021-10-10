@@ -9,7 +9,7 @@ import com.retroblade.hirasawaprod.App
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseActivity
 import com.retroblade.hirasawaprod.content.domain.Photo
-import com.retroblade.hirasawaprod.utils.GlideImageHelper
+import com.retroblade.hirasawaprod.utils.loadFullImage
 import com.retroblade.hirasawaprod.viewer.di.component.DaggerViewerComponent
 import kotlinx.android.synthetic.main.fragment_viewer.*
 import moxy.ktx.moxyPresenter
@@ -18,7 +18,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 /**
- * @author m.a.kovalev
+ * An activity for displaying interactive image and its details
  */
 class ViewerActivity : BaseActivity(), ViewerView {
 
@@ -27,23 +27,30 @@ class ViewerActivity : BaseActivity(), ViewerView {
 
     private val presenter by moxyPresenter { presenterProvider.get() }
 
+    // providing photo id through intent
     private val photoId: String? by lazy { intent.getStringExtra(EXTRA_PHOTO_ID) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // component injector must be called before onCreate
         val appComponent = (applicationContext as App).appComponent
         DaggerViewerComponent.factory().create(appComponent).inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_viewer)
+
+        // setup back button and title for actionbar
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             finish()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
-        viewerContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-        presenter.loadData(photoId)
-        window.navigationBarColor = getColor(R.color.black)
         this.title = ""
+
+        // set fullscreen activity mode and change system navbar color
+        viewerContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        window.navigationBarColor = getColor(R.color.black)
+
+        presenter.loadData(photoId)
     }
 
     override fun showPhoto(photo: Photo) {
@@ -51,7 +58,7 @@ class ViewerActivity : BaseActivity(), ViewerView {
         viewsInfoView.text = photo.viewsCount.toString()
         likesInfoView.text = photo.likesCount.toString()
         uploadDate.text = photo.uploadDate.toString(DateTimeFormat.forPattern("dd/MM/yyyy"))
-        GlideImageHelper.loadFlickrFull(photo.photoUrl, photoView)
+        photoView.loadFullImage(photo.photoUrl)
     }
 
     override fun showError() {

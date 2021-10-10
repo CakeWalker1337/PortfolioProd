@@ -1,7 +1,7 @@
 package com.retroblade.hirasawaprod.content.ui.entity
 
 /**
- * @author m.a.kovalev
+ * UI model exposes photo data
  */
 class PhotoItem(
     val id: String,

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 /**
- * @author m.a.kovalev
+ * An entity that describes database object for holding photo information
  */
 @Entity(tableName = "photos", primaryKeys = ["id", "type"])
 class PhotoEntityDb(

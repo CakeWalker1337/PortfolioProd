@@ -5,12 +5,18 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 /**
- * @author m.a.kovalev
+ * View interface represents some methods for viewer screen
  */
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface SplashView : BaseView {
 
+    /**
+     * Navigates to content screen
+     */
     fun navigateToContent()
 
+    /**
+     * Starts splash screen animation
+     */
     fun startSplash()
 }

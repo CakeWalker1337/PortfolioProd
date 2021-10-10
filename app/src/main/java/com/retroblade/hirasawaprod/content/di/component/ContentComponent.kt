@@ -7,7 +7,8 @@ import com.retroblade.hirasawaprod.content.ui.ContentFragment
 import dagger.Component
 
 /**
- * @author m.a.kovalev
+ * Dagger component for content feature. Represents the dependencies provided into another components
+ * Actually, this component doesn't expose anything to other components
  */
 @Component(
     dependencies = [

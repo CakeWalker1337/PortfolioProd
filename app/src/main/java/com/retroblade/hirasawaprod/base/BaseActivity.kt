@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.dialog_error_message.view.*
 import moxy.MvpAppCompatActivity
 
 /**
- * @author m.a.kovalev
+ * An activity base class contains base methods for each activity
  */
 abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 

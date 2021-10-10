@@ -6,12 +6,18 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 /**
- * @author m.a.kovalev
+ * View interface represents some methods for viewer screen
  */
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ViewerView : BaseView {
 
+    /**
+     * Displays [photo] and its details on screen
+     */
     fun showPhoto(photo: Photo)
 
+    /**
+     * Displays error if something goes wrong
+     */
     fun showError()
 }

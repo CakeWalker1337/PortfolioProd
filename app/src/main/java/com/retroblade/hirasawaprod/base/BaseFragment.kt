@@ -11,10 +11,13 @@ import kotlinx.android.synthetic.main.dialog_error_message.view.*
 import moxy.MvpAppCompatFragment
 
 /**
- * @author m.a.kovalev
+ * A base fragment class contains some base methods for each fragment
  */
 abstract class BaseFragment : MvpAppCompatFragment(), BaseView {
 
+    /**
+     * Returns a layout resource for inflating the fragment
+     */
     abstract fun getLayoutRes(): Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

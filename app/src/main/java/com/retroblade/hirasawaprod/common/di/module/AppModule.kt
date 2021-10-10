@@ -7,7 +7,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 /**
- * @author m.a.kovalev
+ * Dagger module contains provided instances of dependencies represented in app component
  */
 @Module
 class AppModule() {

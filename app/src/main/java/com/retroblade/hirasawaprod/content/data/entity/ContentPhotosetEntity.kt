@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * @author m.a.kovalev
+ * A wrapper model for photoset entity
  */
 @Serializable
 class ContentPhotosetEntity(

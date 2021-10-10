@@ -3,7 +3,7 @@ package com.retroblade.hirasawaprod.content.domain
 import org.joda.time.DateTime
 
 /**
- * @author m.a.kovalev
+ * Photo domain model. Contains specific fields for domain layer
  */
 data class Photo(
     val id: String,

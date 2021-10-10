@@ -1,4 +1,4 @@
-package com.retroblade.hirasawaprod.content.carousel
+package com.retroblade.hirasawaprod.content.ui.adapter.carousel
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,23 +12,25 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_content_carousel.view.*
 
 /**
- * @author m.a.kovalev
+ * The adapter class for carousel container
  */
 class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.ViewHolder>() {
 
     private val items: MutableList<PhotoItem> = mutableListOf()
 
+    @Suppress("NotifyDataSetChanged")
     fun setItems(newItems: List<PhotoItem>) {
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_content_carousel, parent, false)
         )
+    }
 
     override fun getItemCount(): Int = items.size
 
@@ -42,6 +44,5 @@ class CarouselViewPagerAdapter : RecyclerView.Adapter<CarouselViewPagerAdapter.V
         }
     }
 
-    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
-        LayoutContainer
+    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer
 }

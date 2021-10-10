@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * @author m.a.kovalev
+ * A photo entity model. It contains full retrieved information about photo
  */
 @Serializable
 class PhotoEntity(

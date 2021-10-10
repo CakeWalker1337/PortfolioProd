@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import com.retroblade.hirasawaprod.App
+import com.retroblade.hirasawaprod.BuildConfig
 import com.retroblade.hirasawaprod.R
 import com.retroblade.hirasawaprod.base.BaseFragment
 import com.retroblade.hirasawaprod.common.navigation.ContentScreen
@@ -11,7 +12,7 @@ import com.retroblade.hirasawaprod.common.navigation.NavigatorHolder
 import com.retroblade.hirasawaprod.common.ui.CompositeAnimationItem
 import com.retroblade.hirasawaprod.common.ui.CompositeAnimationManager
 import com.retroblade.hirasawaprod.splash.di.component.DaggerSplashComponent
-import com.retroblade.hirasawaprod.utils.getYearsOfExperienceTillNow
+import com.retroblade.hirasawaprod.utils.DateUtils
 import kotlinx.android.synthetic.main.fragment_splash.*
 import moxy.ktx.moxyPresenter
 import java.lang.ref.WeakReference
@@ -19,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 /**
- * @author m.a.kovalev
+ * A fragment for showing splash screen. Shows animated sequence of labels and introduces the application to user.
  */
 class SplashFragment : BaseFragment(), SplashView {
 
@@ -34,6 +35,7 @@ class SplashFragment : BaseFragment(), SplashView {
     override fun getLayoutRes(): Int = R.layout.fragment_splash
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // component injector must be called before onCreate. Extremely necessary to use exact call sequence in fragments
         val appComponent = (requireContext().applicationContext as App).appComponent
         DaggerSplashComponent.factory().create(appComponent).inject(this)
         super.onCreate(savedInstanceState)
@@ -41,18 +43,19 @@ class SplashFragment : BaseFragment(), SplashView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        // sets dark text color for status bar and system navbar
         if (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
             activity?.window?.decorView?.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
         }
     }
 
     override fun navigateToContent() {
-        presenter.onSplashShown()
+        presenter.handleOnSplashShown()
         navigatorHolder.getNavigator()?.executeNavigation(ContentScreen)
     }
 
     override fun startSplash() {
-        val years = getYearsOfExperienceTillNow()
+        val years = DateUtils.getYearsTillNow(BuildConfig.EXPERIENCE_START_DATE)
         CompositeAnimationManager.Builder()
             .withFadeInAndOutTime(TRANSITION_DURATION, TRANSITION_DURATION)
             .addItem(CompositeAnimationItem(WeakReference(tvHello), getString(R.string.text_frame_1), 500L, 4000L))

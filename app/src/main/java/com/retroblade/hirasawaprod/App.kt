@@ -7,13 +7,16 @@ import timber.log.Timber
 
 
 /**
- * @author m.a.kovalev
+ * Custom app class. Contains basic components initialization.
  */
 class App : Application() {
 
+    /**
+     * App component instance. It uses lazy initialization to be initialized only when it's called for the first time
+     */
     val appComponent: AppComponent by lazy {
         // Creates an instance of AppComponent using its Factory constructor
-        // We pass the applicationContext that will be used as Context in the graph
+        // We pass the applicationContext that will be used as Context in the dependency graph
         DaggerAppComponent.factory().create(applicationContext)
     }
 
@@ -22,11 +25,12 @@ class App : Application() {
         initLogger()
     }
 
+    /**
+     * Initialize Timber logger tree
+     */
     private fun initLogger() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
     }
 }
-
-const val APP_SCOPE = "APP_SCOPE"

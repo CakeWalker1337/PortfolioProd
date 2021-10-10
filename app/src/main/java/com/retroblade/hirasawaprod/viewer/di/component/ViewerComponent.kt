@@ -7,7 +7,8 @@ import com.retroblade.hirasawaprod.viewer.ui.ViewerActivity
 import dagger.Component
 
 /**
- * @author m.a.kovalev
+ * Dagger component for viewer feature. Represents the dependencies provided into another components
+ * Actually, this component doesn't expose anything to other components
  */
 @Component(
     dependencies = [
