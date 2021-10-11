@@ -9,6 +9,7 @@ import com.retroblade.portfolioprod.utils.NetworkManager
 import com.retroblade.portfolioprod.utils.exceptions.InvalidCacheException
 import io.reactivex.Single
 import kotlinx.serialization.ExperimentalSerializationApi
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -60,7 +61,9 @@ class GetAllPhotosUseCase @Inject constructor(
                     repository.getAllPhotosFromCache(PhotoType.CONTENT)
                         .map { it.toDomain() }
                         .toList()
-                } else throw InvalidCacheException("Cache is invalid")
+                } else throw InvalidCacheException("GetAllPhotos cache is invalid")
             }
+            .doOnError(Timber::e)
+            .onErrorReturnItem(emptyList())
     }
 }

@@ -137,7 +137,9 @@ class ContentFragment : BaseFragment(), ContentView {
      * Launches start progress animation
      */
     private fun enableStartAnimation() {
-        animationManager.startAnimation(progressBar, ShowProgressBar)
+        animationManager.startAnimation(progressBar, ShowProgressBar) {
+            presenter.loadData()
+        }
     }
 
     override fun setRecentPhotosItems(items: List<PhotoItem>) {

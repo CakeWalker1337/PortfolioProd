@@ -60,7 +60,9 @@ class GetPagerPhotosUseCase @Inject constructor(
                     repository.getAllPhotosFromCache(PhotoType.PAGER)
                         .map { it.toDomain() }
                         .toList()
-                } else throw InvalidCacheException("Cache is invalid")
+                } else throw InvalidCacheException("GetPagerPhotos cache is invalid")
             }
+            .doOnError(Timber::e)
+            .onErrorReturnItem(emptyList())
     }
 }

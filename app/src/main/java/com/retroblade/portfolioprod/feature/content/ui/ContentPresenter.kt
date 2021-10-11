@@ -6,12 +6,12 @@ import com.retroblade.portfolioprod.feature.content.domain.usecase.GetAllPhotosU
 import com.retroblade.portfolioprod.feature.content.domain.usecase.GetPagerPhotosUseCase
 import com.retroblade.portfolioprod.feature.content.ui.model.ContentStatus
 import com.retroblade.portfolioprod.utils.NetworkManager
+import com.retroblade.portfolioprod.utils.ui.isNotEmpty
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.serialization.ExperimentalSerializationApi
 import moxy.InjectViewState
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -25,10 +25,6 @@ class ContentPresenter @Inject constructor(
     private val contentItemsFactory: ContentItemsFactory,
     private val photoCacheManager: CommonPhotoCacheManager
 ) : BasePresenter<ContentView>() {
-
-    override fun onFirstViewAttach() {
-        loadData()
-    }
 
     /**
      * Launches data loading and calls view methods as the response
@@ -50,17 +46,18 @@ class ContentPresenter @Inject constructor(
             Triple(recentItems, popularItems, relevantItems) to pagerItems
         }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ (contentItems, pagerItems) ->
-                viewState.setRecentPhotosItems(contentItems.first)
-                viewState.setPopularPhotosItems(contentItems.second)
-                viewState.setRelevantPhotosItems(contentItems.third)
-                viewState.setPagerItems(pagerItems)
+            .subscribe { (contentItems, pagerItems) ->
+                if (contentItems.isNotEmpty() && pagerItems.isNotEmpty()) {
+                    viewState.setRecentPhotosItems(contentItems.first)
+                    viewState.setPopularPhotosItems(contentItems.second)
+                    viewState.setRelevantPhotosItems(contentItems.third)
+                    viewState.setPagerItems(pagerItems)
 
-                val status = if (networkManager.isNetworkAvailable()) ContentStatus.ACTUAL else ContentStatus.CACHED
-                viewState.showContent(status)
-            }, { ex ->
-                Timber.e(ex)
-                viewState.showError()
-            }).disposeOnFinish()
+                    val status = if (networkManager.isNetworkAvailable()) ContentStatus.ACTUAL else ContentStatus.CACHED
+                    viewState.showContent(status)
+                } else {
+                    viewState.showError()
+                }
+            }.disposeOnFinish()
     }
 }
