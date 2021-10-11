@@ -16,9 +16,9 @@ api_key_release="YOUR_API_KEY"
 ```
 3. Build project
 
-### Preview
+### Preview clip
 
-Preview clip is coming soon
+[![Preview](https://img.youtube.com/vi/Jih1nRtyCrg/0.jpg)](https://www.youtube.com/watch?v=Jih1nRtyCrg)
 
 ### Technologies
 
