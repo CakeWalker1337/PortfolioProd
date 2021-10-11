@@ -16,7 +16,7 @@ api_key_release="YOUR_API_KEY"
 ```
 3. Build project
 
-### Preview clip
+### Preview
 
 [<img src="https://raw.github.com/CakeWalker1337/PortfolioProd/main/github/preview_img.png" width="450">](https://www.youtube.com/watch?v=oChkwUjm2VM)
 
