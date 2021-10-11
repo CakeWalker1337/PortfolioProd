@@ -18,7 +18,7 @@ api_key_release="YOUR_API_KEY"
 
 ### Preview clip
 
-[![Preview](https://img.youtube.com/vi/Jih1nRtyCrg/0.jpg)](https://www.youtube.com/watch?v=Jih1nRtyCrg)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oChkwUjm2VM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### Technologies
 
