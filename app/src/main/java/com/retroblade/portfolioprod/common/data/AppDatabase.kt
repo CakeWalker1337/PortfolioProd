@@ -1,4 +1,4 @@
-package com.retroblade.portfolioprod.base
+package com.retroblade.portfolioprod.common.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

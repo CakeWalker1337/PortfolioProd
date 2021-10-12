@@ -1,7 +1,7 @@
 package com.retroblade.portfolioprod.feature.splash.ui
 
 import com.retroblade.portfolioprod.base.BasePresenter
-import com.retroblade.portfolioprod.common.PreferenceManager
+import com.retroblade.portfolioprod.common.data.PreferenceManager
 import moxy.InjectViewState
 import javax.inject.Inject
 

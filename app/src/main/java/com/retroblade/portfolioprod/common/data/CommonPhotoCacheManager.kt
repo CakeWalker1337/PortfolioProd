@@ -1,4 +1,4 @@
-package com.retroblade.portfolioprod.common
+package com.retroblade.portfolioprod.common.data
 
 import com.retroblade.portfolioprod.feature.content.domain.Photo
 import javax.inject.Inject

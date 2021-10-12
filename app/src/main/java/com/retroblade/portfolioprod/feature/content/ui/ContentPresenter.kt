@@ -1,7 +1,7 @@
 package com.retroblade.portfolioprod.feature.content.ui
 
 import com.retroblade.portfolioprod.base.BasePresenter
-import com.retroblade.portfolioprod.common.CommonPhotoCacheManager
+import com.retroblade.portfolioprod.common.data.CommonPhotoCacheManager
 import com.retroblade.portfolioprod.feature.content.domain.usecase.GetAllPhotosUseCase
 import com.retroblade.portfolioprod.feature.content.domain.usecase.GetPagerPhotosUseCase
 import com.retroblade.portfolioprod.feature.content.ui.model.ContentStatus

@@ -1,7 +1,7 @@
 package com.retroblade.portfolioprod.feature.viewer.ui
 
 import com.retroblade.portfolioprod.base.BasePresenter
-import com.retroblade.portfolioprod.common.CommonPhotoCacheManager
+import com.retroblade.portfolioprod.common.data.CommonPhotoCacheManager
 import moxy.InjectViewState
 import javax.inject.Inject
 

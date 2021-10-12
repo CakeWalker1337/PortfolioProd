@@ -3,7 +3,7 @@ package com.retroblade.portfolioprod.common.di
 import android.content.Context
 import androidx.room.Room
 import com.retroblade.portfolioprod.BuildConfig
-import com.retroblade.portfolioprod.base.AppDatabase
+import com.retroblade.portfolioprod.common.data.AppDatabase
 import com.retroblade.portfolioprod.feature.content.data.ContentDao
 import javax.inject.Inject
 

@@ -2,7 +2,7 @@ package com.retroblade.portfolioprod.common.di.component
 
 import android.content.Context
 import com.retroblade.portfolioprod.MainActivity
-import com.retroblade.portfolioprod.common.CommonPhotoCacheManager
+import com.retroblade.portfolioprod.common.data.CommonPhotoCacheManager
 import com.retroblade.portfolioprod.common.di.module.AppModule
 import com.retroblade.portfolioprod.common.navigation.NavigatorHolder
 import dagger.BindsInstance

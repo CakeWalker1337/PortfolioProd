@@ -1,6 +1,6 @@
 package com.retroblade.portfolioprod.common.di.module
 
-import com.retroblade.portfolioprod.common.CommonPhotoCacheManager
+import com.retroblade.portfolioprod.common.data.CommonPhotoCacheManager
 import com.retroblade.portfolioprod.common.navigation.NavigatorHolder
 import dagger.Module
 import dagger.Provides

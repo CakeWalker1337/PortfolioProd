@@ -1,4 +1,4 @@
-package com.retroblade.portfolioprod.common
+package com.retroblade.portfolioprod.common.data
 
 import android.content.Context
 import android.content.SharedPreferences
