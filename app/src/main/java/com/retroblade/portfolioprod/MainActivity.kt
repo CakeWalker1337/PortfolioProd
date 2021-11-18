@@ -41,7 +41,11 @@ class MainActivity : BaseActivity() {
         if (currentTime < prevBackPressedTime + EXIT_DOUBLE_TAP_BUFFER_MILLIS) {
             finishAffinity()
         } else {
-            Toast.makeText(this, getString(R.string.double_click_exit_message), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.content_double_click_exit_message),
+                Toast.LENGTH_SHORT
+            ).show()
             prevBackPressedTime = currentTime
         }
     }

@@ -193,7 +193,7 @@ class ContentFragment : BaseFragment(), ContentView {
      * Creates error message and displays it on screen as a snackbar
      */
     private fun showSnackbarMessage() {
-        Snackbar.make(requireView(), R.string.snackbar_content_message, 5000)
+        Snackbar.make(requireView(), R.string.content_snackbar_content_message, 5000)
             .setBackgroundTint(resources.getColor(R.color.content_snackbar_color, requireContext().theme))
             .setTextColor(resources.getColor(R.color.default_text_color, requireContext().theme))
             .setAnimationMode(ANIMATION_MODE_SLIDE)

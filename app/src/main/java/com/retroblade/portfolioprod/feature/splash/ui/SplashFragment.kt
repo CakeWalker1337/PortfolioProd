@@ -58,15 +58,63 @@ class SplashFragment : BaseFragment(), SplashView {
         val years = DateUtils.getYearsTillNow(BuildConfig.EXPERIENCE_START_DATE)
         CompositeAnimationManager.Builder()
             .withFadeInAndOutTime(TRANSITION_DURATION, TRANSITION_DURATION)
-            .addItem(CompositeAnimationItem(WeakReference(tvHello), getString(R.string.text_frame_1), 500L, 4000L))
-            .addItem(CompositeAnimationItem(WeakReference(tvCenter), getString(R.string.text_frame_2_1), 4500L, 11500L))
-            .addItem(CompositeAnimationItem(WeakReference(tvUnder), getString(R.string.text_frame_2_2, years), 6500L, 11500L))
-            .addItem(CompositeAnimationItem(WeakReference(tvCenter), getString(R.string.text_frame_3_1), 12000L, 18500L))
-            .addItem(CompositeAnimationItem(WeakReference(tvUnderLeft), getString(R.string.text_frame_3_2_1), 14000L, 18500L))
-            .addItem(CompositeAnimationItem(WeakReference(tvUnder), getString(R.string.text_frame_3_2_2), 14000L, 21500L) {
-                navigateToContent()
-            })
-            .addItem(CompositeAnimationItem(WeakReference(tvUnderRight), getString(R.string.text_frame_3_2_3), 14000L, 18500L))
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvHello),
+                    getString(R.string.splash_text_frame_1),
+                    500L,
+                    4000L
+                )
+            )
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvCenter),
+                    getString(R.string.splash_text_frame_2_1),
+                    4500L,
+                    11500L
+                )
+            )
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvUnder),
+                    getString(R.string.splash_text_frame_2_2, years),
+                    6500L,
+                    11500L
+                )
+            )
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvCenter),
+                    getString(R.string.splash_text_frame_3_1),
+                    12000L,
+                    18500L
+                )
+            )
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvUnderLeft),
+                    getString(R.string.splash_text_frame_3_2_1),
+                    14000L,
+                    18500L
+                )
+            )
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvUnder),
+                    getString(R.string.splash_text_frame_3_2_2),
+                    14000L,
+                    21500L
+                ) {
+                    navigateToContent()
+                })
+            .addItem(
+                CompositeAnimationItem(
+                    WeakReference(tvUnderRight),
+                    getString(R.string.splash_text_frame_3_2_3),
+                    14000L,
+                    18500L
+                )
+            )
             .build()
             .startAnimation()
     }

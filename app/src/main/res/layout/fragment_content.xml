@@ -83,7 +83,7 @@
                             android:layout_marginHorizontal="16dp"
                             android:layout_marginTop="16dp"
                             android:fontFamily="@font/raleway_regular"
-                            android:text="Recent works"
+                            android:text="@string/content_recent_works"
                             android:textSize="20sp" />
 
                         <View
@@ -92,7 +92,7 @@
                             android:layout_height="1px"
                             android:layout_marginHorizontal="16dp"
                             android:layout_marginTop="16dp"
-                            android:background="#999999" />
+                            android:background="@color/content_progress_foreground_color" />
 
                         <LinearLayout
                             android:id="@+id/recentArtsRecycler"
@@ -108,7 +108,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="16dp"
                             android:fontFamily="@font/raleway_regular"
-                            android:text="Most popular works"
+                            android:text="@string/content_popular_works"
                             android:textSize="20sp" />
 
                         <View
@@ -116,7 +116,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1px"
                             android:layout_marginHorizontal="16dp"
-                            android:background="#999999" />
+                            android:background="@color/content_progress_foreground_color" />
 
                         <LinearLayout
                             android:id="@+id/popularArtsRecycler"
@@ -151,7 +151,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:fontFamily="@font/raleway_regular"
-                            android:text="Relevant works"
+                            android:text="@string/content_relevant_works"
                             android:textSize="20sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +162,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1px"
                             android:layout_margin="16dp"
-                            android:background="#999999"
+                            android:background="@color/content_progress_foreground_color"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleRelevant" />
@@ -194,7 +194,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:fontFamily="@font/raleway_regular"
-                            android:text="Contacts"
+                            android:text="@string/content_contacts"
                             android:textSize="20sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +205,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1px"
                             android:layout_margin="16dp"
-                            android:background="#999999"
+                            android:background="@color/content_progress_foreground_color"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleContacts" />
@@ -219,7 +219,7 @@
                             android:layout_marginBottom="24dp"
                             android:fontFamily="@font/raleway_regular"
                             android:gravity="center_horizontal"
-                            android:text="@string/follow_text"
+                            android:text="@string/content_follow_text"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -266,7 +266,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/loading_error_message"
+                android:text="@string/content_loading_error_message"
                 android:textAlignment="center"
                 android:textAppearance="@style/RegularText.Size18" />
 
@@ -277,7 +277,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:clickable="true"
-                android:text="@string/try_again_button_text"
+                android:text="@string/content_try_again_button_text"
                 android:textAlignment="center"
                 android:textAppearance="@style/RegularText.Clickable.Size18"
                 android:textSize="18sp" />
